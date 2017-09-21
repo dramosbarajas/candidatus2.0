@@ -15,6 +15,7 @@
     <body>
         <div class="flex-center position-ref full-height">
             <h1>Index CANDIDATUS 2.O</h1>
+            <h3>Versión inicial</h3>
         </div>
     </body>
 </html>
