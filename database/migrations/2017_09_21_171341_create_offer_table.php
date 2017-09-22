@@ -27,7 +27,7 @@ class CreateOfferTable extends Migration
             $table->string('experiencia');
             $table->integer('rango_sal_min')->unsigned()->length('5');
             $table->integer('rango_sal_max')->unsigned()->length('5');
-            $table->timestamps();
+            $table->timestamps(); 
         });
     }
 
