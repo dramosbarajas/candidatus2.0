@@ -1,5 +1,5 @@
 
-    var app = new Vue({
+	var app = new Vue({
 		el: '#app',
 		data: {
 		mensaje: 'Funcionando Vue!',
@@ -14,6 +14,7 @@
 		}
 		}
 	})
+	
     var formaAltaOferta = new Vue({
 		el: '#formAltaOferta',
 		data: {
