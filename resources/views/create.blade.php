@@ -1,8 +1,15 @@
-@extends('app') @section('content')
-<br>
-<div id="eventos"></div>
-<form class="form-horizontal" method="POST" v-on:submit.prevent="createOffer" data-toggle="validator" role="form" id="formAltaOferta">
-  <fieldset>
+<form class="form-horizontal" method="POST" v-on:submit.prevent="createOffer" data-toggle="validator" role="form">
+<div class="modal fade" id="create">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span>&times;</span>
+				</button>
+				<h3>@{{ nombrecito }}</h3>
+			</div>
+			<div class="modal-body">
+            <fieldset>
     <!-- Nombre Formulario-->
     <div class="panel panel-default">
       <div class="panel-heading">
@@ -27,7 +34,7 @@
               </select>
             </div>
           </div>
-          <div class='col-sm-2 col-sm-offset-6'>
+          <div class='col-sm-3 col-sm-offset-5'>
             <div class='form-group'>
               <label for="fecha">FECHA INSCRIPCIÓN</label>
               <input type="date" name="fecha" id="fecha" class="form-control" required="true" data-required-error="El campo Fecha no puede estar vacío." v-model="fecha" value="{{ old('fecha') }}">
@@ -132,9 +139,9 @@
           </div>
           <div class='col-sm-12'>
           </div>
-          <div class='col-sm-2 col-sm-offset-1'>
+          <div class='col-sm-3 col-sm-offset-1'>
             <div class='form-group'>
-              <label for="bandamin">BANDA SALARIAL MÍNIMA</label>
+              <label for="bandamin">BANDA MÍNIMA</label>
               
                 <div class="input-group">
                 <input type="text" name="bandamin" id="bandamin" class="form-control" required="true" placeholder="00000" pattern="[0-9]{4,5}"
@@ -144,9 +151,9 @@
               <span class="help-block with-errors"></span>
             </div>
           </div>
-          <div class='col-sm-2 col-sm-offset-2'>
+          <div class='col-sm-3 col-sm-offset-1'>
             <div class='form-group' id="bandamaxdiv">
-              <label for="bandamax">BANDA SALARIAL MÁXIMA</label>
+              <label for="bandamax">BANDA MÁXIMA</label>
               <div class="input-group">
               <input type="text" name="bandamax" id="bandamax" class="form-control" required="true" placeholder="00000" pattern="[0-9]{4,5}"
                 data-required-error="El campo no puede estar vacío." v-model="bandamax" data-pattern-error="El campo solo puede contener entre 4 y 5 digitos." v-on:change="comprobarBandaSalarial(value)">
@@ -155,9 +162,9 @@
               <span class="help-block with-errors error"></span>
             </div>
           </div>
-          <div class='col-sm-2 col-sm-offset-2'>
+          <div class='col-sm-2 col-sm-offset-1'>
             <div class='form-group'>
-              <label for="vacante">NÚMERO VACANTES</label>
+              <label for="vacante">VACANTES</label>
               <div class="input-group">
               <input type="text" name="vacante" id="vacante" class="form-control" required="true" placeholder="0" pattern="[0-9]{1,2}"
                 data-required-error="El campo no puede estar vacío." data-pattern-error="El campo solo puede contener digitos." v-model="vacante">
@@ -181,6 +188,10 @@
         </div>
       </div>
   </fieldset>
+			<div class="modal-footer">
+				<h6>Candidatus 2.0 - Gestión RR.HH.</h6>
+			</div>
+		</div>
+	</div>
+</div>
 </form>
-
-@stop
