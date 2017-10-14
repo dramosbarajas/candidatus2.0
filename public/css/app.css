@@ -6985,28 +6985,15 @@ button.toast-close-button {
   }
 }
 
-.caja1{
+.caja{
     
+    background-image: -webkit-gradient(linear, left top, left bottom, from(gray), to(brown));
+    background-image: -webkit-linear-gradient(top, gray, brown);
+    background-image: -moz-linear-gradient(top, gray, brown);
+    background-image: linear-gradient(to bottom, gray, brown);;
+    border-radius:8px;
+}
 
-    background-color:red;
-}
-.caja2{
-    
-
-    background-color:blue;
-}
-.caja3{
-    
-    
-    background-color:orange;
-}
-.caja4{
-    
-    
-    background-color:pink;
-}
-.caja5{
-    
-    
-    background-color:gray;
+.error{
+    /* color: #a94442; */
 }

@@ -9,17 +9,18 @@ class Offer extends Model
     protected $fillable = 
     [
         'estado',        
+        'fecha',
         'titulo',
         'descripcion',
-        'fecha_inicio',
-        'fecha_fin',
-        'puesto',
+        'departamento',
+        'estudios',
+        'experiencia',
         'contrato',
         'duracion',
-        'formacion',
-        'experiencia',
-        'rango_sal_min',
-        'rango_sal_max'
+        'jornada',
+        'bandamin',
+        'bandamax',
+        'vacante'
     ];
 
 }

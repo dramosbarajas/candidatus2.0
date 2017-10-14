@@ -16,17 +16,18 @@ class CreateOfferTable extends Migration
         Schema::create('offers', function (Blueprint $table) {
             $table->increments('id');
             $table->boolean('estado');
-            $table->string('titulo', 30);
+            $table->date('fecha');
+            $table->string('titulo');
             $table->text('descripcion');
-            $table->date('fecha_inicio');
-            $table->date('fecha_fin');
-            $table->string('puesto');
-            $table->string('contrato');
-            $table->integer('duracion')->length('3');
-            $table->string('formacion');
+            $table->string('departamento');
+            $table->string('estudios');
             $table->string('experiencia');
-            $table->integer('rango_sal_min')->unsigned()->length('5');
-            $table->integer('rango_sal_max')->unsigned()->length('5');
+            $table->string('contrato');
+            $table->integer('duracion')->length('2');
+            $table->string('jornada');
+            $table->string('bandamin');
+            $table->string('bandamax');
+            $table->integer('vacante')->length('2');
             $table->timestamps();
         });
     }
