@@ -1,45 +1,7 @@
-.btn-create { 
-    color: #0019BD; 
-    background-color: #FFFFFF; 
-    border-color: #0019BD; 
-  } 
-   
-  .btn-create:hover, 
-  .btn-create:focus, 
-  .btn-create:active, 
-  .btn-create.active, 
-  .open .dropdown-toggle.btn-create { 
-    color: #0019BD; 
-    background-color: #EBEBEB; 
-    border-color: #0019BD; 
-  } 
-   
-  .btn-create:active, 
-  .btn-create.active, 
-  .open .dropdown-toggle.btn-create { 
-    background-image: none; 
-  } 
-   
-  .btn-create.disabled, 
-  .btn-create[disabled], 
-  fieldset[disabled] .btn-create, 
-  .btn-create.disabled:hover, 
-  .btn-create[disabled]:hover, 
-  fieldset[disabled] .btn-create:hover, 
-  .btn-create.disabled:focus, 
-  .btn-create[disabled]:focus, 
-  fieldset[disabled] .btn-create:focus, 
-  .btn-create.disabled:active, 
-  .btn-create[disabled]:active, 
-  fieldset[disabled] .btn-create:active, 
-  .btn-create.disabled.active, 
-  .btn-create[disabled].active, 
-  fieldset[disabled] .btn-create.active { 
-    background-color: #FFFFFF; 
-    border-color: #0019BD; 
-  } 
-   
-  .btn-create .badge { 
-    color: #FFFFFF; 
-    background-color: #0019BD; 
-  }
+.cerrada{
+  color:red;
+}
+
+.activa{
+  color: green;
+}

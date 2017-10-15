@@ -13,7 +13,7 @@ class offerController extends Controller
         //devuelve una respuesta en Json con todos los elementos de la base de datos en estado activo y el status 200. 
         // 0 indica cerrado y 1 abierto
         // @note pensar si es mas optimo devolver todo el contenido de la BBDD y luego con vue mostrar o ocultar  
-        return response (Offer::get(),200);
+        return response (Offer::orderBy('estado', 'DESC')->get(), 200);
         
     }
 
@@ -44,7 +44,12 @@ class offerController extends Controller
     
     public function update(Request $request, $id)
     {
-        return response($request->all(),201);
+        /*$this->validate($request, [
+            'estado' => 'required',
+        ]);*/
+        Offer::find($id)->update($request->all());
+            
+        return;
     }
 
     

@@ -1,8 +1,13 @@
 var app = new Vue({
 	el: '#app',
+	filters: {
+		moment: function (date) {
+		  return moment(date).format('DD/MM/YYYY');
+		}
+	  },
 	data: {
 		mensaje: 'Funcionando Vue!',
-		ofertas: '',
+		ofertas:'',
 		estado: "",
 		fecha: "",
 		titulo: "",
@@ -22,28 +27,75 @@ var app = new Vue({
 			'estado': '',
 			'titulo': ''
 		},
+		showOffer: {
+			'id': '',
+			'estado': '',
+			'fecha:': '',
+			'titulo': '',
+			'descripcion':'',
+		},
+		ofertaById:''
 	},
 	methods: {
-		mostrarOfertas: function () {
+		getOffer: function () {
+			console.log("VOY A  MOSTRARTE LAS OFERTAS")
 			var urlGetOffer = "http://127.0.0.1:8000/offer"
 			axios.get(urlGetOffer).then(response => {
 				this.ofertas = response.data
 			});
+			console.log(this.ofertas)
 		},
 
-		editarOferta: function (oferta) {
+		editOffer: function (oferta) {
 			this.editOferta.id = oferta.id;
 			this.editOferta.estado = oferta.estado;
 			this.editOferta.titulo = oferta.titulo;
 			$('#edit').modal('show');
 		},
 
+		viewOffer: function(oferta){
+			console.log("MOSTRANDO OFERTAS ");
+			console.log(oferta)
+			this.showOffer.estado = oferta.estado;
+			this.showOffer.fecha = oferta.fecha;
+			this.showOffer.titulo = oferta.titulo;
+			this.showOffer.descripcion = oferta.descripcion;
+			
+			console.log(this.showOffer.titulo)
+			$('#show').modal('show');
+		},
+		viewOfferID: function(ofeta){
+			console.log("MOSTRANDO OFERTAS POR ID ");
+			var urlGetOffer = "http://127.0.0.1:8000/offer/" + this.editOferta.id
+			axios.get(urlGetOffer).then(response => {
+				this.ofertaById = response.data
+			});
+			$('#edit').modal('hide');
+			$('#show').modal('show');
+		},
+		updateOffer: function(id){
+			console.log("listo para actualizar ");
+			console.log(id)
+			console.log(this.editOferta.estado)
+			var url = 'offer/' + id;
+			axios.put(url, this.editOferta).then(response => {
+				this.getOffer();
+				this.editOferta = {'id': '', 'estado': '','titulo':''};
+				this.errors	  = [];
+				$('#edit').modal('hide');
+				toastr.success('Tarea actualizada con éxito');
+			}).catch(error => {
+				toastr.error('Vaya algo ha salido mal.');
+				this.errors = error.response.data
+			});
+			
+		},
 		comprobarIndefinido: function () {
 			if (this.contrato != "Indefinido") {
 				$("#duracion").prop("disabled", false);
 			} else {
 				$("#duracion").prop("disabled", true);
-				$("#duracion").value = 0;
+				$("#duracion").text = 0;
 				this.duracion = 0;
 			}
 		},
@@ -88,10 +140,11 @@ var app = new Vue({
 				this.vacante = " ";
 				this.errors = [];
 				$('#eventos').modal('hide');
-				toastr.success('Nueva Oferta creada con éxito');
+				toastr.success('Nueva oferta creada con éxito');
 			}).catch(error => {
 				this.errors = error.response.data
 			});
 		}
-	}
+	},
+	
 })

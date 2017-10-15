@@ -9,6 +9,7 @@ mix.scripts([
 	'resources/assets/js/axios.js',
 	'resources/assets/js/app.js',
 	'resources/assets/js/validator.js',
+	'resources/assets/js/moment.js',
 	], 'public/js/app.js')
 	.styles([
 	'resources/assets/css/bootstrap.css',

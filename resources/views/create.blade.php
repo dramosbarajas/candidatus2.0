@@ -6,7 +6,7 @@
 				<button type="button" class="close" data-dismiss="modal">
 					<span>&times;</span>
 				</button>
-				<h3>@{{ nombrecito }}</h3>
+				
 			</div>
 			<div class="modal-body">
             <fieldset>
@@ -177,7 +177,7 @@
           </div>
           <div class='col-sm-5 col-sm-offset-1'>
             <div class='form-group'>
-              <button type="reset" class="btn btn-warning">Limpiar Formulario</button>
+              <button type="reset" class="btn btn-warning"><i class="fa fa-repeat" aria-hidden="true"></i> Limpiar Formulario</button>
             </div>
           </div>
           <div class='col-sm-5'>
