@@ -20,3 +20,5 @@ Route::get('/altaOferta', function () {
 });
 
 Route::resource('offer','offerController');
+
+Route::get('/countOffers', 'offerController@countOffers');

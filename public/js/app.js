@@ -24413,7 +24413,11 @@ var app = new Vue({
 			'titulo': '',
 			'descripcion':'',
 		},
-		ofertaById:''
+		ofertaById:'',
+		countOffers:''
+	},
+	created:function() {
+		this.getCountActive();
 	},
 	methods: {
 		getOffer: function () {
@@ -24422,7 +24426,14 @@ var app = new Vue({
 			axios.get(urlGetOffer).then(response => {
 				this.ofertas = response.data
 			});
-			console.log(this.ofertas)
+			
+		},
+		getCountActive: function () {
+			var urlCountOffers = "http://127.0.0.1:8000/countOffers"
+			axios.get(urlCountOffers).then(response => {
+				this.countOffers = response.data
+			});
+			
 		},
 
 		editOffer: function (oferta) {
@@ -24430,6 +24441,7 @@ var app = new Vue({
 			this.editOferta.estado = oferta.estado;
 			this.editOferta.titulo = oferta.titulo;
 			$('#edit').modal('show');
+			
 		},
 
 		viewOffer: function(oferta){
@@ -24467,7 +24479,7 @@ var app = new Vue({
 				toastr.error('Vaya algo ha salido mal.');
 				this.errors = error.response.data
 			});
-			
+			this.getCountActive();
 		},
 		comprobarIndefinido: function () {
 			if (this.contrato != "Indefinido") {
@@ -24518,7 +24530,7 @@ var app = new Vue({
 				this.bandamax = " ";
 				this.vacante = " ";
 				this.errors = [];
-				$('#eventos').modal('hide');
+				$('#create').modal('hide');
 				toastr.success('Nueva oferta creada con éxito');
 			}).catch(error => {
 				this.errors = error.response.data

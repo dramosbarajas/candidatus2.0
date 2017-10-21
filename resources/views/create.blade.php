@@ -142,7 +142,6 @@
           <div class='col-sm-3 col-sm-offset-1'>
             <div class='form-group'>
               <label for="bandamin">BANDA MÍNIMA</label>
-              
                 <div class="input-group">
                 <input type="text" name="bandamin" id="bandamin" class="form-control" required="true" placeholder="00000" pattern="[0-9]{4,5}"
                 data-required-error="El campo no puede estar vacío." v-model="bandamin" data-pattern-error="El campo solo puede contener entre 4 y 5 digitos.">

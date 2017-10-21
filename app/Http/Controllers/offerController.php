@@ -17,10 +17,15 @@ class offerController extends Controller
         
     }
 
-    public function create()
+    public function countOffers()
     {
-        //
+        $countactives = Offer::where('estado', 1)->count();
+        $countclosed = Offer::where('estado', 0)->count();
+        return response()
+        ->json(['actives' => $countactives, 'closed' => $countclosed]);
     }
+
+    
 
     
     public function store(\App\Http\Requests\CreateOfferRequest $request)

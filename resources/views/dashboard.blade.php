@@ -6,7 +6,8 @@
         <h3>@{{ mensaje }}</h3>
         <a href="#" class="btn btn-primary pull-right" data-toggle="modal" data-target="#create"> Nueva Oferta
         </a>
-        <button type="button" v-on:click="getOffer" class="btn btn-primary">
+        <h2>Estado Candidaturas <span>Abiertas @{{countOffers.actives}} </span><span>Cerradas @{{countOffers.closed}} </span></h2>
+        <button type="button" @click="getOffer" class="btn btn-primary">
             <i class="fa fa-eye fa-1x" aria-hidden="true"></i>
             Mostrar ofertas</button>
 
