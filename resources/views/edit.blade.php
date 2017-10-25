@@ -22,9 +22,9 @@
 			</div>
 			<div class="modal-footer">
 				<input type="submit" class="btn btn-primary" value="Actualizar">
-				<a href="#" class="btn btn-info btn-sm pull-left" v-on:click.prevent="viewOfferID(editOferta.id)">
-                            <i class="fa fa-search-plus" aria-hidden="true"></i>
-                            </i> Visualizar</a>
+				<a href="#" class="btn btn-danger pull-left" v-on:click.prevent="deleteOffer(editOferta.id)">
+                            <i class="fa fa-trash-o" aria-hidden="true"></i>
+                            </i> Eliminar</a>
                 <h6>Candidatus 2.0 - Gestión RRHH</h6>
 			</div>
 		</div>

@@ -24377,15 +24377,10 @@ return /******/ (function(modules) { // webpackBootstrap
 });
 ;
 //# sourceMappingURL=axios.map
+
 var app = new Vue({
 	el: '#app',
-	filters: {
-		moment: function (date) {
-		  return moment(date).format('DD/MM/YYYY');
-		}
-	  },
 	data: {
-		mensaje: 'Funcionando Vue!',
 		ofertas:'',
 		estado: "",
 		fecha: "",
@@ -24412,12 +24407,24 @@ var app = new Vue({
 			'fecha:': '',
 			'titulo': '',
 			'descripcion':'',
+			'estudios': "",
+			'experiencia': "",
+			'contrato': "",
+			'duracion': "",
+			'jornada': "",
+			'bandamin': "",
+			'bandamax': "",
+			'vacante': "",
 		},
 		ofertaById:'',
-		countOffers:''
+		countOffers:'',
+		
+		
 	},
 	created:function() {
 		this.getCountActive();
+		this.getOffer();
+	
 	},
 	methods: {
 		getOffer: function () {
@@ -24447,20 +24454,42 @@ var app = new Vue({
 		viewOffer: function(oferta){
 			console.log("MOSTRANDO OFERTAS ");
 			console.log(oferta)
+			this.showOffer.id = oferta.id;
 			this.showOffer.estado = oferta.estado;
 			this.showOffer.fecha = oferta.fecha;
 			this.showOffer.titulo = oferta.titulo;
 			this.showOffer.descripcion = oferta.descripcion;
+			this.showOffer.estudios = oferta.estudios;
+			this.showOffer.experiencia = oferta.experiencia;
+			this.showOffer.contrato = oferta.contrato;
+			this.showOffer.duracion = oferta.duracion;
+			this.showOffer.jornada = oferta.jornada;
+			this.showOffer.bandamin = oferta.bandamin;
+			this.showOffer.bandamax = oferta.bandamax;
+			this.showOffer.vacante = oferta.vacante;
 			
 			console.log(this.showOffer.titulo)
 			$('#show').modal('show');
 		},
-		viewOfferID: function(ofeta){
+		viewOfferID: function(oferta){
 			console.log("MOSTRANDO OFERTAS POR ID ");
 			var urlGetOffer = "http://127.0.0.1:8000/offer/" + this.editOferta.id
 			axios.get(urlGetOffer).then(response => {
 				this.ofertaById = response.data
 			});
+			this.showOffer.id = ofertaById.id;
+			this.showOffer.estado = ofertaById.estado;
+			this.showOffer.fecha = ofertaById.fecha;
+			this.showOffer.titulo = ofertaById.titulo;
+			this.showOffer.descripcion = ofertaById.descripcion;
+			this.showOffer.estudios = ofertaById.estudios;
+			this.showOffer.experiencia = ofertaById.experiencia;
+			this.showOffer.contrato = ofertaById.contrato;
+			this.showOffer.duracion = ofertaById.duracion;
+			this.showOffer.jornada = ofertaById.jornada;
+			this.showOffer.bandamin = ofertaById.bandamin;
+			this.showOffer.bandamax = ofertaById.bandamax;
+			this.showOffer.vacante = ofertaById.vacante;
 			$('#edit').modal('hide');
 			$('#show').modal('show');
 		},
@@ -24480,6 +24509,15 @@ var app = new Vue({
 				this.errors = error.response.data
 			});
 			this.getCountActive();
+		},
+
+		deleteOffer: function(id) {
+			var url = 'offer/' + id;
+			axios.delete(url).then(response => { //eliminamos
+				this.getOffer();//listamos
+				this.getCountActive();
+				toastr.success('Eliminado correctamente'); //mensaje
+			});
 		},
 		comprobarIndefinido: function () {
 			if (this.contrato != "Indefinido") {
@@ -24531,11 +24569,30 @@ var app = new Vue({
 				this.vacante = " ";
 				this.errors = [];
 				$('#create').modal('hide');
+				this.getOffer();
+				this.getCountActive();
 				toastr.success('Nueva oferta creada con éxito');
 			}).catch(error => {
 				this.errors = error.response.data
 			});
+		},
+		generateOfferPDF: function (id) {
+			console.log('generar PDF del ID ////  ' + id );
 		}
+	},
+	filters: {
+		moment: function (date) {
+		  return moment(date).format('DD/MM/YYYY');
+		}
+	  },
+	
+})
+var app2= new Vue({
+	el: '#app-other',
+	data: {
+		info:'trhufhasjkfhdkfj',
+	
+		
 	},
 	
 })

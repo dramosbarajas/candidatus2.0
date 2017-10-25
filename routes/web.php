@@ -15,10 +15,12 @@ Route::get('/', function () {
     return view('dashboard');
 });
 
-Route::get('/altaOferta', function () {
-    return view('altaOferta');
+Route::get('/candidatos', function () {
+    return view('candidatos');
 });
+
 
 Route::resource('offer','offerController');
 
 Route::get('/countOffers', 'offerController@countOffers');
+Route::get('/pdfview',array('as'=>'pdfview','uses'=>'pdf@generateOfferPDF'));

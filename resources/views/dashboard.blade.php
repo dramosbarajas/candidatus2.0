@@ -1,31 +1,38 @@
-@extends('app') @section('content')
-<div class="flex-center position-ref full-height">
-    <h1>Index CANDIDATUS 2.O</h1>
-    <h3>Versión inicial</h3>
-    <div id="app">
-        <h3>@{{ mensaje }}</h3>
-        <a href="#" class="btn btn-primary pull-right" data-toggle="modal" data-target="#create"> Nueva Oferta
+@extends('app') 
+@section('content')
+<div id="app" class="row">
+    <div class="col-sm-12">
+        <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#create">
+        <i class="fa fa-plus-circle fa-1x" aria-hidden="true"></i>
+            Nueva Oferta
         </a>
-        <h2>Estado Candidaturas <span>Abiertas @{{countOffers.actives}} </span><span>Cerradas @{{countOffers.closed}} </span></h2>
-        <button type="button" @click="getOffer" class="btn btn-primary">
-            <i class="fa fa-eye fa-1x" aria-hidden="true"></i>
-            Mostrar ofertas</button>
-
-        <div v-if="ofertas">
-            <table class="table">
+        <button type="button" @click="getOffer" class="btn btn-info">
+            <i class="fa fa-refresh fa-1x" aria-hidden="true"></i>
+            Actualizar</button>
+            <div class="pull-right">
+            <span>Estado Candidaturas: </span>
+            <button type="button" class="btn btn-success">Activas <span class="badge">@{{countOffers.actives}}</span></button>
+            <button type="button" class="btn btn-danger">Cerradas <span class="badge">@{{countOffers.closed}}</span></button>
+            </div>
+            <hr>
+        <table class="table table-hover table-striped">
+            <thead>
                 <tr>
-                    <th>ID</th>
                     <th>Candidatura</th>
                     <th>Titulo</th>
                     <th>Fecha</th>
                     <th>Visualizar</th>
                     <th>Editar</th>
                 </tr>
-
+            </thead>
+            <tbody>
                 <tr v-for="oferta in ofertas">
-                    <td>@{{oferta.id}}</td>
-                    <td v-if="oferta.estado != 0" class="activa"><strong>ACTIVA</strong></td>
-                    <td v-else class="cerrada"><strong>CERRADA</strong></td>
+                    <td v-if="oferta.estado != 0" class="activa">
+                        <strong>ACTIVA</strong>
+                    </td>
+                    <td v-else class="cerrada">
+                        <strong>CERRADA</strong>
+                    </td>
                     <td>@{{oferta.titulo}}</td>
                     <td>@{{oferta.fecha | moment}}</td>
                     <td>
@@ -38,12 +45,16 @@
                             <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Editar</a>
                     </td>
                 </tr>
-            </table>
-                            @include('show') 
-        @include('edit') 
+            </tbody>
+        </table>
+        @include('show')
+        @include('edit')
         @include('create')
-        </div>
-        <pre>@{{ofertas}}</pre>
+    </div>
+    <div class="col-sm-6">
+        <pre>
+			@{{ ofertas }}
+		</pre>
     </div>
 </div>
 @stop
