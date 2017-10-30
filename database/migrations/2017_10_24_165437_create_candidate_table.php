@@ -13,21 +13,21 @@ class CreateCandidateTable extends Migration
      */
     public function up()
     {
-        Schema::create('candidate', function (Blueprint $table) {
+        Schema::create('candidates', function (Blueprint $table) {
             $table->string('tipo_id');
             $table->string('identidad')->unique();
-            $table->string('foto');
+            $table->date('fecha_nac');
+            $table->string('genero');
             $table->string('nombre');
             $table->string('apellido1');
             $table->string('apellido2');
-            $table->date('fecha_nac');
             $table->string('email');
             $table->string('tel');
-            $table->string('genero');
             $table->string('nacionalidad');
+            $table->string('provincia');
             $table->string('poblacion');
-            $table->text('notas');
-            $table->string('cv');
+            $table->text('notas')->nullable();
+            $table->string('cv')->nullable();
             $table->timestamps();
         });
     }
@@ -39,6 +39,6 @@ class CreateCandidateTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('candidate');
+        Schema::dropIfExists('candidates');
     }
 }

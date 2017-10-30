@@ -21,6 +21,11 @@ Route::get('/candidatos', function () {
 
 
 Route::resource('offer','offerController');
+Route::resource('candidate','candidateController');
 
 Route::get('/countOffers', 'offerController@countOffers');
 Route::get('/pdfview',array('as'=>'pdfview','uses'=>'pdf@generateOfferPDF'));
+
+Route::get('/countries','otherController@countries');
+Route::get('/provinces','otherController@provinces');
+Route::get('/provinces/{id}','otherController@towns');

@@ -1,4 +1,4 @@
-<form class="form-horizontal" method="POST" v-on:submit.prevent="" data-toggle="validator" role="form">
+<form class="form-horizontal" method="POST" v-on:submit.prevent="createcandidate" data-toggle="validator" role="form">
   <div class="modal fade" id="createCandidate">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
@@ -23,199 +23,153 @@
                   </div>
                   <div class='col-sm-2 col-sm-offset-1'>
                     <div class='form-group'>
-                      <label for="tipo_id">TIPO IDENTIDAD</label>
-                      <select id="tipo_id" name="tipo_id" class="form-control" required="true" value="{{ old('tipo_id') }}">
+                      <label for="tipo_id">Tipo Documento</label>
+                      <select id="tipo_id" name="tipo_id" class="form-control" required="true" value="{{ old('tipo_id') }}" v-model="createCandidate.tipo_id">
                         <option value="DNI">DNI</option>
                         <option value="NIE">NIE</option>
                       </select>
                     </div>
                   </div>
-                  <!-- <div class='col-sm-2 col-sm-offset-1'>
+                  <div v-if="createCandidate.tipo_id === 'DNI'" class='col-sm-2'>
                     <div class='form-group'>
-                      <div class="input-group input-group-date js-input-group-date">
-                        <div>
-                          <input type="number" placeholder="DD" maxlength="2" oninput="maxLengthCheck(this)" id="idbirthDateday" class="js-required"
-                            data-vars="{&quot;next&quot;:&quot;idbirthDatemonth&quot;,&quot;numdigits&quot;:&quot;2&quot;,&quot;regexp&quot;:&quot;[0-9]{2}$&quot;}"
-                            name="birthDateday">
-                        </div>
-                        <div>
-                          <input type="number" placeholder="MM" maxlength="2" oninput="maxLengthCheck(this)" id="idbirthDatemonth" data-vars="{&quot;next&quot;:&quot;idbirthDateyear&quot;,&quot;numdigits&quot;:&quot;2&quot;,&quot;regexp&quot;:&quot;[0-9]{2}$&quot;}"
-                            name="birthDatemonth">
-                        </div>
-                        <div>
-                          <input type="number" placeholder="AAAA" maxlength="4" oninput="maxLengthCheck(this)" id="idbirthDateyear" data-vars="{&quot;numdigits&quot;:&quot;4&quot;,&quot;regexp&quot;:&quot;[0-9]{4}$&quot;}"
-                            name="birthDateyear">
-                        </div>
-                      </div>
-                    </div>
-                  </div> -->
-
-                  <div class='col-sm-3 col-sm-offset-'>
-                    <div class='form-group'>
-                      <label for="identidad">Nº IDENTIDAD</label>
-                      <input type="string" name="identidad" id="identidad" class="form-control" required="true" data-required-error="El campo Fecha no puede estar vacío."
-                        value="{{ old('identidad') }}">
+                      <label for="identidad">Nº Identidad</label>
+                      <input type="string" name="identidad" id="identidad" class="form-control" required="true" data-required-error="El campo identidad no puede estar vacío."
+                        value="{{ old('identidad') }}" v-model="createCandidate.identidad" pattern="[0-9]{8}[A-Z]{1}" data-pattern-error="El DNI tiene que tener la siguiente estructura 00000000X">
                       <span class="help-block with-errors"></span>
                     </div>
                   </div>
-                  <!-- Título de la oferta-->
-                  <div class='col-sm-8 col-sm-offset-2'>
+                  <div v-else class='col-sm-2'>
                     <div class='form-group'>
-                      <label for="titulo">TÍTULO OFERTA</label>
-                      <input class="form-control" id="titulo" name="titulo" minlength=6 maxlength=30 required="true" data-error="El campo Título ha de estar comprendido entre 6 y 30 carácteres."
-                        data-required-error="El campo Título no puede estar vacío." type="text" />
+                      <label for="identidad">Nº Identidad</label>
+                      <input type="string" name="identidad" id="identidad" class="form-control" required="true" data-required-error="El campo identidad no puede estar vacío."
+                        value="{{ old('identidad') }}" v-model="createCandidate.identidad" pattern="[A-Z]{1}[0-9]{7}[A-Z]{1}" data-pattern-error="El NIE tiene que tener la siguiente estructura X0000000X">
                       <span class="help-block with-errors"></span>
                     </div>
                   </div>
-                  <!-- Descripción de la oferta-->
-                  <div class='col-sm-10 col-sm-offset-1'>
+                <div class='col-sm-2 col-sm-offset-2'>
                     <div class='form-group'>
-                      <label for="descripcion">DESCRIPCIÓN</label>
-                      <textarea name="descripcion" id="descripcion" class="form-control" required="true" minlength=100 maxlength=600 data-error="El campo Descripción ha de contener en 100 y 600 carácteres."
-                        data-required-error="El campo Descripción no puede estar vacío."></textarea>
+                      <label for="fecha_nac">Fecha Nacimiento</label>
+                      <input type="string" name="fecha_nac" id="fecha_nac" class="form-control" required="true" data-required-error="El campo fechanac no puede estar vacío."
+                      value="{{ old('fechanac') }}" placeholder="dd/mm/aaaa" v-model="createCandidate.fecha_nac">
                       <span class="help-block with-errors"></span>
                     </div>
-                    <!-- Grupo Select 1  DEPARTAMENTO // ESTUDIOS // EXPERIENCIA -->
                   </div>
-                  <div class='col-sm-2 col-sm-offset-1'>
-                    <div class='form-group'>
-                      <label for="departamento">DEPARTAMENTO</label>
-                      <select id="departamento" name="departamento" class="form-control">
-                        <option value="Recursos Humanos">Recursos Humanos</option>
-                        <option value="Tecnología">Tecnología</option>
-                        <option value="Administración">Administración</option>
-                        <option value="Dirección">Dirección</option>
-                        <option value="Económico - Financiero">Económico - Financiero</option>
+                  <div class='col-sm-2 col-sm-offset-0'>
+                  <div class='form-group'>
+                    <label for="genero">Género</label>
+                    <select id="genero" name="genero" class="form-control" required="true" value="{{ old('genero') }}" v-model="createCandidate.genero">
+                      <option value="Hombre">Mujer</option>
+                      <option value="Mujer">Hombre</option>
+                    </select>
+                    <span class="help-block with-errors"></span>
+                  </div>
+                </div>
+                  <!-- Grupo Nombre y apellidos -->
+                </div>
+                <div class='col-sm-8 col-sm-offset-2'>
+                  <div class='form-group'>
+                    <label for="nombre">Nombre</label>
+                    <input type="string" name="nombre" id="nombre" class="form-control" required="true" data-required-error="El campo identidad no puede estar vacío."
+                      value="{{ old('nombre') }}" v-model="createCandidate.nombre">
+                    <span class="help-block with-errors"></span>
+                  </div>
+                </div>
+                <div class='col-sm-8 col-sm-offset-2'>
+                  <div class='form-group'>
+                    <label for="apellido1">Primer Apellido</label>
+                    <input type="string" name="apellido1" id="apellido1" class="form-control" required="true" data-required-error="El campo identidad no puede estar vacío."
+                      value="{{ old('apellido1') }}" v-model="createCandidate.apellido1">
+                    <span class="help-block with-errors"></span>
+                  </div>
+                </div>
+                <div class='col-sm-8 col-sm-offset-2'>
+                  <div class='form-group'>
+                    <label for="apellido2">Segundo Apellido</label>
+                    <input type="string" name="apellido2" id="apellido2" class="form-control" required="true" data-required-error="El campo identidad no puede estar vacío."
+                      value="{{ old('apellido2') }}" v-model="createCandidate.apellido2">
+                    <span class="help-block with-errors"></span>
+                  </div>
+                </div>
+                <!-- Grupo Select 1  CONTRATO // DURACION // JORNADA -->
+                <div class='col-sm-5 col-sm-offset-1'>
+                  <div class='form-group'>
+                    <label for="email">Correo Electrónico</label>
+                    <input type="email" name="email" id="email" class="form-control" required="true" data-required-error="El campo correo electrónico no puede estar vacío."
+                      value="{{ old('email') }}" v-model="createCandidate.email">
+                      <span class="help-block with-errors"></span>
+                  </div>
+                </div>
+                <div class='col-sm-3 col-sm-offset-1'>
+                  <div class='form-group'>
+                    <label for="tel">Teléfono</label>
+                    <input type="tel" name="tel" id="email" class="form-control" required="true" data-required-error="El campo teléfono no puede estar vacío."
+                      value="{{ old('tel') }}" pattern="[0-9]{9}" data-pattern-error="El campo teléfono solo puede contener 9 digitos." v-model="createCandidate.tel">
+                    <span class="help-block with-errors"></span>
+                  </div>
+                </div>
+                
+                <div class='col-sm-12'>
+                </div>
+                <div class='col-sm-3 col-sm-offset-1'>
+                  <div class='form-group'>
+                    <label for="nacionalidad">Nacionalidad</label>
+                    <select id="nacionalidad" name="nacionalidad" class="form-control" required="true" value="{{ old('nacionalidad') }}" data-required-error="Selecciona un elemento de la lista." v-model="createCandidate.nacionalidad">
+                      <option v-for="country in countries" :value="country">@{{country}}</option>
                       </select>
-                    </div>
+                    <span class="help-block with-errors"></span>
                   </div>
-                  <div class='col-sm-3 col-sm-offset-1'>
-                    <div class='form-group'>
-                      <label for="estudios">ESTUDIOS MÍNIMOS</label>
-                      <select id="estudios" name="estudios" class="form-control">
-                        <option value="Sin Estudios">Sin Estudios</option>
-                        <option value="Educación Secundaria Obligatoria">Educación Secundaria Obligatoria</option>
-                        <option value="Bachillerato">Bachillerato</option>
-                        <option value="Ciclo Formativo Grado Medio">Ciclo Formativo Grado Medio</option>
-                        <option value="Ciclo Formativo Grado Superior">Ciclo Formativo Grado Superior</option>
-                        <option value="Licenciatura">Licenciatura</option>
-                        <option value="Diplomatura">Diplomatura</option>
-                        <option value="Doctorado">Doctorado</option>
-                      </select>
-                    </div>
+                </div>
+                <div class='col-sm-3 col-sm-offset-1'>
+                  <div class='form-group'>
+                    <label for="provincia">Provincia</label>
+                    <select id="provincia" name="provincia" class="form-control" required="true" value="{{ old('provincia') }}" data-required-error="Selecciona un elemento de la lista." v-model="createCandidate.provincia" v-on:change="gettowns">
+                    <option v-for="province in provinces" :value="province.provinceid">@{{province.provincename}}</option>
+                      </select> 
+                    <span class="help-block with-errors error"></span>
                   </div>
-                  <div class='col-sm-3 col-sm-offset-1'>
-                    <div class='form-group'>
-                      <label for="experiencia">EXPERIENCIA</label>
-                      <select id="experiencia" name="experiencia" class="form-control">
-                        <option value="NNEC">No necesaria</option>
-                        <option value="6M">6 Meses</option>
-                        <option value="1A">1 año</option>
-                        <option value="2A">2 años</option>
-                        <option value="5A">5 años</option>
-                        <option value="10A">Mas de 10 años</option>
-                      </select>
-                    </div>
+                </div>
+                <div class='col-sm-3 col-sm-offset-1'>
+                  <div class='form-group'>
+                    <label for="poblacion">Población</label>
+                    <select id="poblacion" name="poblacion" class="form-control" required="true" value="{{ old('poblacion') }}" data-required-error="Selecciona un elemento de la lista." v-model="createCandidate.poblacion">
+                    <option v-for="town in towns" :value="town">@{{town}}</option>
+                      </select> 
+                    <span class="help-block with-errors"></span>
                   </div>
-                  <!-- Grupo Select 1  CONTRATO // DURACION // JORNADA -->
-                  <div class='col-sm-3 col-sm-offset-1'>
-                    <div class='form-group'>
-                      <label for="contrato">CONTRATO</label>
-                      <select id="contrato" name="contrato" class="form-control">
-                        <option value="De duración determinada">De duración determinada</option>
-                        <option value="Indefinido">Indefinido</option>
-                        <option value="Otros Contratos">Otros Contratos</option>
-                        <option value="A tiempo parcial">A tiempo parcial</option>
-                        <option value="Autónomo">Autónomo</option>
-                        <option value="Fijo Discontinuo">Fijo Discontinuo</option>
-                        <option value="Formativo">Formativo</option>
-                        <option value="De relevo">De relevo</option>
-                      </select>
-                    </div>
+                </div>
+                <!-- <div class='col-sm-6 col-sm-offset-3'>
+                <div class='form-group'>
+                    <label for="cv">Curriculum Vitae</label>
+                    <input id="cv" name="cv" type="file" class="file form-control" v-model="cv">
+                    <span class="help-block with-errors"></span>
                   </div>
-                  <div class='col-sm-2 col-sm-offset-1'>
-                    <div class='form-group'>
-                      <label for="estudiomin">DURACIÓN</label>
-                      <div class="input-group">
-                        <input id="duracion" name="duracion" class="form-control input-md" required="true" type="text" pattern="[0-9]{1,2}" data-required-error="El campo no puede estar vacío."
-                          data-pattern-error="El campo solo puede contener digitos.">
-                        <span class="input-group-addon">
-                          <strong>MESES</strong>
-                        </span>
-                      </div>
-                      <span class="help-block with-errors"></span>
-                    </div>
+                </div> -->
+                <div class='col-sm-8 col-sm-offset-2'>
+                <div class='form-group'>
+                    <label for="notas">Notas</label>
+                    <textarea name="notas" id="notas" class="form-control" v-model="createCandidate.notas"></textarea>
+                    <span class="help-block with-errors"></span>
                   </div>
-                  <div class='col-sm-3 col-sm-offset-1'>
-                    <div class='form-group'>
-                      <label for="jornada">JORNADA LABORAL</label>
-                      <select id="jornada" name="jornada" class="form-control">
-                        <option value="Completa">Completa</option>
-                        <option value="Parcial">Parcial</option>
-                        <option value="Intensiva">Intensiva</option>
-                      </select>
-                    </div>
+                </div>
+                <div class='col-sm-5 col-sm-offset-1'>
+                  <div class='form-group'>
+                    <button type="button" class="btn btn-warning">
+                      <i class="fa fa-repeat" aria-hidden="true"></i> Limpiar Formulario</button>
                   </div>
-                  <div class='col-sm-12'>
-                  </div>
-                  <div class='col-sm-3 col-sm-offset-1'>
-                    <div class='form-group'>
-                      <label for="bandamin">BANDA MÍNIMA</label>
-                      <div class="input-group">
-                        <input type="text" name="bandamin" id="bandamin" class="form-control" required="true" placeholder="00000" pattern="[0-9]{4,5}"
-                          data-required-error="El campo no puede estar vacío." data-pattern-error="El campo solo puede contener entre 4 y 5 digitos.">
-                        <span class="input-group-addon">
-                          <strong>€ ANUAL</strong>
-                        </span>
-                      </div>
-                      <span class="help-block with-errors"></span>
-                    </div>
-                  </div>
-                  <div class='col-sm-3 col-sm-offset-1'>
-                    <div class='form-group' id="bandamaxdiv">
-                      <label for="bandamax">BANDA MÁXIMA</label>
-                      <div class="input-group">
-                        <input type="text" name="bandamax" id="bandamax" class="form-control" required="true" placeholder="00000" pattern="[0-9]{4,5}"
-                          data-required-error="El campo no puede estar vacío." data-pattern-error="El campo solo puede contener entre 4 y 5 digitos.">
-                        <span class="input-group-addon">
-                          <strong>€ ANUAL</strong>
-                        </span>
-                      </div>
-                      <span class="help-block with-errors error"></span>
-                    </div>
-                  </div>
-                  <div class='col-sm-2 col-sm-offset-1'>
-                    <div class='form-group'>
-                      <label for="vacante">VACANTES</label>
-                      <div class="input-group">
-                        <input type="text" name="vacante" id="vacante" class="form-control" required="true" placeholder="0" pattern="[0-9]{1,2}"
-                          data-required-error="El campo no puede estar vacío." data-pattern-error="El campo solo puede contener digitos.">
-                        <span class="input-group-addon">USU</span>
-                      </div>
-                      <span class="help-block with-errors"></span>
-                    </div>
-                  </div>
-                  <div class='col-sm-12'>
-                  </div>
-                  <div class='col-sm-5 col-sm-offset-1'>
-                    <div class='form-group'>
-                      <button type="reset" class="btn btn-warning">
-                        <i class="fa fa-repeat" aria-hidden="true"></i> Limpiar Formulario</button>
-                    </div>
-                  </div>
-                  <div class='col-sm-5'>
-                    <div class='form-group'>
-                      <button type="submit" class="btn btn-primary btn-block" id="enviarAltaOferta">
-                        <i class="fa fa-floppy-o" aria-hidden="true"> </i> Crear Oferta</button>
-                    </div>
+                </div>
+                <div class='col-sm-5'>
+                  <div class='form-group'>
+                    <button type="submit" class="btn btn-primary btn-block" id="enviarAltaOferta">
+                      <i class="fa fa-floppy-o" aria-hidden="true"> </i> Crear Candidato</button>
                   </div>
                 </div>
               </div>
+            </div>
           </fieldset>
           <div class="modal-footer">
             <h6>Candidatus 2.0 - Gestión RR.HH.</h6>
           </div>
-          </div>
         </div>
       </div>
+    </div>
 </form>

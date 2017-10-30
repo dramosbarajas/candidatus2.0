@@ -1,8 +1,7 @@
-
 var app = new Vue({
 	el: '#app',
 	data: {
-		ofertas:'',
+		ofertas: '',
 		estado: "",
 		fecha: "",
 		titulo: "",
@@ -27,7 +26,7 @@ var app = new Vue({
 			'estado': '',
 			'fecha:': '',
 			'titulo': '',
-			'descripcion':'',
+			'descripcion': '',
 			'estudios': "",
 			'experiencia': "",
 			'contrato': "",
@@ -37,15 +36,36 @@ var app = new Vue({
 			'bandamax': "",
 			'vacante': "",
 		},
-		ofertaById:'',
-		countOffers:'',
-		
-		
+		ofertaById: '',
+		countOffers: '',
+		createCandidate: {
+			'tipo_id': 'DNI',
+			'identidad': '',
+			'fecha_nac': '',
+			'genero': '',
+			'nombre': '',
+			'apellido1': '',
+			'apellido2': '',
+			'email': '',
+			'tel': '',
+			'nacionalidad': '',
+			'provincia': '',
+			'poblacion': '',
+			'cv': '',
+			'notas': '',
+		},
+		countries:'',
+		provinces:'',
+		towns:''
+
+
 	},
-	created:function() {
+	created: function () {
 		this.getCountActive();
 		this.getOffer();
-	
+		this.getcountries();
+		this.getprovinces();
+
 	},
 	methods: {
 		getOffer: function () {
@@ -54,14 +74,14 @@ var app = new Vue({
 			axios.get(urlGetOffer).then(response => {
 				this.ofertas = response.data
 			});
-			
+
 		},
 		getCountActive: function () {
 			var urlCountOffers = "http://127.0.0.1:8000/countOffers"
 			axios.get(urlCountOffers).then(response => {
 				this.countOffers = response.data
 			});
-			
+
 		},
 
 		editOffer: function (oferta) {
@@ -69,10 +89,10 @@ var app = new Vue({
 			this.editOferta.estado = oferta.estado;
 			this.editOferta.titulo = oferta.titulo;
 			$('#edit').modal('show');
-			
+
 		},
 
-		viewOffer: function(oferta){
+		viewOffer: function (oferta) {
 			console.log("MOSTRANDO OFERTAS ");
 			console.log(oferta)
 			this.showOffer.id = oferta.id;
@@ -88,11 +108,11 @@ var app = new Vue({
 			this.showOffer.bandamin = oferta.bandamin;
 			this.showOffer.bandamax = oferta.bandamax;
 			this.showOffer.vacante = oferta.vacante;
-			
+
 			console.log(this.showOffer.titulo)
 			$('#show').modal('show');
 		},
-		viewOfferID: function(oferta){
+		viewOfferID: function (oferta) {
 			console.log("MOSTRANDO OFERTAS POR ID ");
 			var urlGetOffer = "http://127.0.0.1:8000/offer/" + this.editOferta.id
 			axios.get(urlGetOffer).then(response => {
@@ -114,15 +134,19 @@ var app = new Vue({
 			$('#edit').modal('hide');
 			$('#show').modal('show');
 		},
-		updateOffer: function(id){
+		updateOffer: function (id) {
 			console.log("listo para actualizar ");
 			console.log(id)
 			console.log(this.editOferta.estado)
 			var url = 'offer/' + id;
 			axios.put(url, this.editOferta).then(response => {
 				this.getOffer();
-				this.editOferta = {'id': '', 'estado': '','titulo':''};
-				this.errors	  = [];
+				this.editOferta = {
+					'id': '',
+					'estado': '',
+					'titulo': ''
+				};
+				this.errors = [];
 				$('#edit').modal('hide');
 				toastr.success('Tarea actualizada con éxito');
 			}).catch(error => {
@@ -132,10 +156,10 @@ var app = new Vue({
 			this.getCountActive();
 		},
 
-		deleteOffer: function(id) {
+		deleteOffer: function (id) {
 			var url = 'offer/' + id;
 			axios.delete(url).then(response => { //eliminamos
-				this.getOffer();//listamos
+				this.getOffer(); //listamos
 				this.getCountActive();
 				toastr.success('Eliminado correctamente'); //mensaje
 			});
@@ -198,22 +222,82 @@ var app = new Vue({
 			});
 		},
 		generateOfferPDF: function (id) {
-			console.log('generar PDF del ID ////  ' + id );
-		}
+			console.log('generar PDF del ID ////  ' + id);
+		},
+		createcandidate: function () {
+			var url = 'candidate';
+			console.log(url);
+			console.log("llamada desde el formulario")
+			axios.post(url, {
+				tipo_id: this.createCandidate.tipo_id,
+				identidad: this.createCandidate.identidad,
+				fecha_nac: this.createCandidate.fecha_nac,
+				genero: this.createCandidate.genero,
+				nombre: this.createCandidate.nombre,
+				apellido1: this.createCandidate.apellido1,
+				apellido2: this.createCandidate.apellido2,
+				email: this.createCandidate.email,
+				tel: this.createCandidate.tel,
+				nacionalidad: this.createCandidate.nacionalidad,
+				provincia: this.createCandidate.provincia,
+				poblacion: this.createCandidate.poblacion,
+				notas: this.createCandidate.notas,
+				//cv: this.createCandidate.cv,
+			}).then(response => {
+				this.createCandidate.tipo_id = '';
+				this.createCandidate.identidad = '';
+				this.createCandidate.fecha_nac = '';
+				this.createCandidate.genero = '';
+				this.createCandidate.nombre = " ";
+				this.createCandidate.apellido1 = " ";
+				this.createCandidate.apellido2 = " ";
+				this.createCandidate.email = "";
+				this.createCandidate.tel = " ";
+				this.createCandidate.nacionalidad = " ";
+				this.createCandidate.provincia = " ";
+				this.createCandidate.poblacion = " ";
+				this.createCandidate.notas = " ";
+				//this.createCandidate.cv = '';
+				this.errors = [];
+				$('#createCandidate').modal('hide');
+				//toastr.success('Nueva candidato creado con éxito');
+				swal(
+					'Good job!',
+					'You clicked the button!',
+					'success',
+				  )
+			}).catch(error => {
+				this.errors = error.response.data
+				swal(
+					'Oops...',
+					'Algo ha salido mal, por favor vuelve a intentarlo!',
+					'error'
+				  )
+			});
+		},
+		getcountries: function(){
+			var url = 'countries';
+			axios.get(url).then(response => {
+				this.countries = response.data
+			});
+		},
+		getprovinces: function(){
+			var url = 'provinces';
+			axios.get(url).then(response => {
+				this.provinces = response.data
+			});
+		},
+		gettowns: function(){
+			var url = 'provinces/' + this.createCandidate.provincia;
+			axios.get(url).then(response => {
+				this.towns = response.data
+			});
+		},
 	},
 	filters: {
 		moment: function (date) {
-		  return moment(date).format('DD/MM/YYYY');
+			return moment(date).format('DD/MM/YYYY');
 		}
-	  },
-	
-})
-var app2= new Vue({
-	el: '#app-other',
-	data: {
-		info:'trhufhasjkfhdkfj',
-	
-		
 	},
-	
+
 })
