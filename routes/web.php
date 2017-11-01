@@ -29,3 +29,6 @@ Route::get('/pdfview',array('as'=>'pdfview','uses'=>'pdf@generateOfferPDF'));
 Route::get('/countries','otherController@countries');
 Route::get('/provinces','otherController@provinces');
 Route::get('/provinces/{id}','otherController@towns');
+Route::get('/checkidentity/{id}','candidateController@checkidentity');
+Route::post('findcandidate','candidateController@findcandidate');
+Route::post('uploadCV','candidateController@uploadCV')->name('uploadCV');

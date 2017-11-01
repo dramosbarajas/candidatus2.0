@@ -52,13 +52,42 @@ var app = new Vue({
 			'provincia': '',
 			'poblacion': '',
 			'cv': '',
+			'cvfile': '',
 			'notas': '',
 		},
-		countries:'',
-		provinces:'',
-		towns:''
+		viewCandidate: {
+			'tipo_id': 'DNI',
+			'identidad': '',
+			'fecha_nac': '',
+			'edad':'',
+			'genero': '',
+			'nombre': '',
+			'apellido1': '',
+			'apellido2': '',
+			'email': '',
+			'tel': '',
+			'nacionalidad': '',
+			'provincia': '',
+			'poblacion': '',
+			'cv': '',
+			'cvfile': '',
+			'notas': '',
+		},
+		countries: '',
+		provinces: '',
+		towns: '',
+		busquedacandidato:{
+			'identidad':'',
+			'infocandidatos':'',
+		},
 
 
+
+	},
+	filters: {
+		moment: function (date) {
+			return moment(date).format('DD/MM/YYYY');
+		}
 	},
 	created: function () {
 		this.getCountActive();
@@ -224,6 +253,52 @@ var app = new Vue({
 		generateOfferPDF: function (id) {
 			console.log('generar PDF del ID ////  ' + id);
 		},
+		uploadCV: function (e) {
+			e.preventDefault();
+			console.log("entrando")
+			var formData = new FormData($('#uploadcvform')[0]); 
+			$.ajax({
+				url: '/uploadCV',  //Server script to process data
+				type: 'POST',
+				data: formData,
+				contentType: false,
+				processData: false,
+				success: function(result) {
+                    swal(
+						'Fichero subido con exito.',
+						'Pulsa el botón para cerrar esta ventana!',
+						'success'
+					)
+                },
+                error: function(result) {
+                    swal(
+						'Oops...',
+						'La identidad introducida ya se encuentra en nuestra base de datos.',
+						'error'
+					)
+                }
+			 });
+			 
+			
+
+
+		},
+		checkidentity: function () {
+			var url = "/checkidentity/" + this.createCandidate.identidad;
+			if(this.createCandidate.identidad != ''){
+				axios.get(url).then(response => {
+					if (response.data != 0) {
+						swal(
+							'Oops...',
+							'La identidad introducida ya se encuentra en nuestra base de datos.',
+							'error'
+						)
+					}
+				});
+			};
+
+			
+		},
 		createcandidate: function () {
 			var url = 'candidate';
 			console.log(url);
@@ -242,7 +317,6 @@ var app = new Vue({
 				provincia: this.createCandidate.provincia,
 				poblacion: this.createCandidate.poblacion,
 				notas: this.createCandidate.notas,
-				//cv: this.createCandidate.cv,
 			}).then(response => {
 				this.createCandidate.tipo_id = '';
 				this.createCandidate.identidad = '';
@@ -257,47 +331,77 @@ var app = new Vue({
 				this.createCandidate.provincia = " ";
 				this.createCandidate.poblacion = " ";
 				this.createCandidate.notas = " ";
-				//this.createCandidate.cv = '';
 				this.errors = [];
 				$('#createCandidate').modal('hide');
 				//toastr.success('Nueva candidato creado con éxito');
 				swal(
-					'Good job!',
-					'You clicked the button!',
+					'Nuevo candidato creado con éxito!',
+					'Pulsa el botón para cerrar esta ventana!',
 					'success',
-				  )
+				)
 			}).catch(error => {
 				this.errors = error.response.data
 				swal(
 					'Oops...',
 					'Algo ha salido mal, por favor vuelve a intentarlo!',
 					'error'
-				  )
+				)
 			});
 		},
-		getcountries: function(){
+		findcandidate: function () {
+			var url = 'findcandidate';
+			axios.post(url,{
+				identidad: this.busquedacandidato.identidad
+			}).then(response => {
+				this.busquedacandidato.infocandidatos = response.data
+			});
+			
+		},
+		getcountries: function () {
 			var url = 'countries';
 			axios.get(url).then(response => {
 				this.countries = response.data
 			});
 		},
-		getprovinces: function(){
+		getprovinces: function () {
 			var url = 'provinces';
 			axios.get(url).then(response => {
 				this.provinces = response.data
 			});
 		},
-		gettowns: function(){
+		gettowns: function () {
 			var url = 'provinces/' + this.createCandidate.provincia;
 			axios.get(url).then(response => {
 				this.towns = response.data
 			});
 		},
-	},
-	filters: {
-		moment: function (date) {
-			return moment(date).format('DD/MM/YYYY');
+		viewcandidate: function (candidato) {
+			console.log(candidato);
+			console.log(candidato.nombre);
+			this.viewCandidate.tipo_id = candidato.tipo_id;
+			this.viewCandidate.identidad = candidato.identidad;
+			this.viewCandidate.fecha_nac = moment(candidato.fecha_nac).format('DD/MM/YYYY');
+			this.viewCandidate.edad = this.ages(candidato.fecha_nac);
+			this.viewCandidate.genero = candidato.genero;
+			this.viewCandidate.nombre = candidato.nombre;
+			this.viewCandidate.apellido1 = candidato.apellido1;
+			this.viewCandidate.apellido2 = candidato.apellido2;
+			this.viewCandidate.email = candidato.email;
+			this.viewCandidate.tel = candidato.tel;
+			this.viewCandidate.nacionalidad = candidato.nacionalidad;
+			this.viewCandidate.provincia = candidato.provincia;
+			this.viewCandidate.poblacion = candidato.poblacion;
+			this.viewCandidate.notas = candidato.notas;
+			this.viewCandidate.cv = candidato.cv;
+
+			$('#viewCandidate').modal('show');
+		},
+		ages: function (borndate){
+			var hoy = moment();
+			var nacimiento = borndate;
+			return anios = hoy.diff(nacimiento,'years');
 		}
 	},
+	
 
 })

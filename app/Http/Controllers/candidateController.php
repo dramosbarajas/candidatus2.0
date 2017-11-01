@@ -7,34 +7,47 @@ use App\Candidate;
 class candidateController extends Controller
 {
     
-    public function index()
+    public function checkidentity($id)
     {
-        return "get candidate";
+        //if (!$request->ajax()) return redirect('/');   
+        return response (Candidate::where('identidad', $id)->count(), 200);
     }
 
-    
-    public function store(Request $request)
+    public function findcandidate(Request $request)
+    {
+        
+        return response(Candidate::where('identidad', $request->identidad)->get(),200);
+        
+    }
+
+    public function store(\App\Http\Requests\CreateCandidateRequest $request)
     {
         Candidate::create($request->all());
-        return ($request->all());
+        return 200;
     }
+
+    public function uploadCV(Request $request)
+    {
+        $pathfile = $request->file('cv')->store('public');
+        $pathfile = str_replace('public','storage',$pathfile);
+        Candidate::where('identidad', $request->identidad)->update(array('cv' => $pathfile));
+        return 200;      
+    }
+
 
     public function show($id)
     {
-        return response ( Offer::get() -> where ('id', $id), 200);
+       
     }
 
     public function update(Request $request, $id)
     {
         
-        Offer::find($id)->update($request->all());
-        return;
+        
     }
 
     public function destroy($id)
     {
-        $offer = Offer::findOrFail($id);
-        $offer->delete();
-        return (204);
+        
     }
 }

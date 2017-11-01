@@ -34,7 +34,7 @@
                     <div class='form-group'>
                       <label for="identidad">Nº Identidad</label>
                       <input type="string" name="identidad" id="identidad" class="form-control" required="true" data-required-error="El campo identidad no puede estar vacío."
-                        value="{{ old('identidad') }}" v-model="createCandidate.identidad" pattern="[0-9]{8}[A-Z]{1}" data-pattern-error="El DNI tiene que tener la siguiente estructura 00000000X">
+                        value="{{ old('identidad') }}" v-model="createCandidate.identidad" pattern="[0-9]{8}[A-Z]{1}" data-pattern-error="El DNI tiene que tener la siguiente estructura 00000000X" @blur="checkidentity">
                       <span class="help-block with-errors"></span>
                     </div>
                   </div>
@@ -42,14 +42,14 @@
                     <div class='form-group'>
                       <label for="identidad">Nº Identidad</label>
                       <input type="string" name="identidad" id="identidad" class="form-control" required="true" data-required-error="El campo identidad no puede estar vacío."
-                        value="{{ old('identidad') }}" v-model="createCandidate.identidad" pattern="[A-Z]{1}[0-9]{7}[A-Z]{1}" data-pattern-error="El NIE tiene que tener la siguiente estructura X0000000X">
+                        value="{{ old('identidad') }}" v-model="createCandidate.identidad" pattern="[A-Z]{1}[0-9]{7}[A-Z]{1}" data-pattern-error="El NIE tiene que tener la siguiente estructura X0000000X" @blur="checkidentity">
                       <span class="help-block with-errors"></span>
                     </div>
                   </div>
-                <div class='col-sm-2 col-sm-offset-2'>
+                <div class='col-sm-3 col-sm-offset-2'>
                     <div class='form-group'>
                       <label for="fecha_nac">Fecha Nacimiento</label>
-                      <input type="string" name="fecha_nac" id="fecha_nac" class="form-control" required="true" data-required-error="El campo fechanac no puede estar vacío."
+                      <input type="date" name="fecha_nac" id="fecha_nac" class="form-control" required="true" data-required-error="El campo fechanac no puede estar vacío."
                       value="{{ old('fechanac') }}" placeholder="dd/mm/aaaa" v-model="createCandidate.fecha_nac">
                       <span class="help-block with-errors"></span>
                     </div>
@@ -58,8 +58,8 @@
                   <div class='form-group'>
                     <label for="genero">Género</label>
                     <select id="genero" name="genero" class="form-control" required="true" value="{{ old('genero') }}" v-model="createCandidate.genero">
-                      <option value="Hombre">Mujer</option>
-                      <option value="Mujer">Hombre</option>
+                      <option value="Hombre">Hombre</option>
+                      <option value="Mujer">Mujer</option>
                     </select>
                     <span class="help-block with-errors"></span>
                   </div>
@@ -110,7 +110,7 @@
                 
                 <div class='col-sm-12'>
                 </div>
-                <div class='col-sm-3 col-sm-offset-1'>
+                <div class='col-sm-4 col-sm-offset-0'>
                   <div class='form-group'>
                     <label for="nacionalidad">Nacionalidad</label>
                     <select id="nacionalidad" name="nacionalidad" class="form-control" required="true" value="{{ old('nacionalidad') }}" data-required-error="Selecciona un elemento de la lista." v-model="createCandidate.nacionalidad">
@@ -137,13 +137,6 @@
                     <span class="help-block with-errors"></span>
                   </div>
                 </div>
-                <!-- <div class='col-sm-6 col-sm-offset-3'>
-                <div class='form-group'>
-                    <label for="cv">Curriculum Vitae</label>
-                    <input id="cv" name="cv" type="file" class="file form-control" v-model="cv">
-                    <span class="help-block with-errors"></span>
-                  </div>
-                </div> -->
                 <div class='col-sm-8 col-sm-offset-2'>
                 <div class='form-group'>
                     <label for="notas">Notas</label>

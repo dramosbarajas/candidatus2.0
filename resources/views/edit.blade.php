@@ -10,11 +10,11 @@
 			</div>
 			<div class="modal-body">
 				<label for="id">ID OFERTA</label>
-				<input type="text" name="id" class="form-control" v-model="editOferta.id" disabled>
+				<input type="text" name="id" class="form-control" v-model="editOferta.id" readonly>
                 <label for="titulo">TÍTULO</label>
-				<input type="text" name="titulo" class="form-control" v-model="editOferta.titulo" disabled="true">
+				<input type="text" name="titulo" class="form-control" v-model="editOferta.titulo" readonly>
                 <label for="estado">ESTADO</label>
-                <select id="estado" name="estado" class="form-control" v-model="editOferta.estado" required="true">
+                <select id="estado" name="estado" class="form-control" v-model="editOferta.estado">
                     <option value="1">Abierta</option>
                     <option value="0">Cerrada</option>
                  </select>
