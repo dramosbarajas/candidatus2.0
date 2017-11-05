@@ -35,7 +35,7 @@
 					<form id="uploadcvform" class="form-inline" method="POST" enctype="multipart/form-data">
 						<label for="cv"> Subir Curriculum Vitae</label>
 						<input type="file" name="cv" id="cv"/>
-						<input type="hidden" name="identidad" :value="viewCandidate.identidad"/>
+						<input type="hidden" name="id" :value="viewCandidate.id"/>
 						<br>
 					<button type="submit" class="btn btn-success" @click="uploadCV">Upload CV</button>
 					</form>

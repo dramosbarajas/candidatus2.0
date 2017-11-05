@@ -6,9 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Candidate extends Model
 {
+    public $incrementing = false;
     protected $fillable = [
         'tipo_id',
-        'identidad',
+        'id',
         'fecha_nac',
         'genero',
         'nombre',
@@ -22,4 +23,10 @@ class Candidate extends Model
         'notas',
         'cv',
     ];
+
+    public function offers()
+    {
+        return $this->belongsToMany(Offer::class,'candidate__offers');
+    }
+    
 }

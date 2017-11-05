@@ -20,7 +20,7 @@
                             <label for="busqueda">Introduce la identidad del candidato.</label>
                             
                             <input type="string" name="busqueda" id="busqueda" class="form-control" required="true" data-required-error="El campo busqueda no puede estar vacío."
-                                value="{{ old('busqueda') }}" v-model="busquedacandidato.identidad">
+                                value="{{ old('busqueda') }}" v-model="busquedacandidato.id">
                              <button type="submit" class="btn btn-primary btn-block" id="enviarAltaOferta">
                       <i class="fa fa-search" aria-hidden="true"> </i> Buscar Candidato</button>
                             <span class="help-block with-errors"></span>

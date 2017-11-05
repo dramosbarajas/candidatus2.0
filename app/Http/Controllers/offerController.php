@@ -11,6 +11,9 @@ class offerController extends Controller
     public function index()
     {
         return response (Offer::orderBy('estado', 'DESC')->get(), 200);
+        //return Offer::with('candidates')->get();
+            
+    
     }
 
     public function countOffers()

@@ -32,17 +32,17 @@
                   </div>
                   <div v-if="createCandidate.tipo_id === 'DNI'" class='col-sm-2'>
                     <div class='form-group'>
-                      <label for="identidad">Nº Identidad</label>
-                      <input type="string" name="identidad" id="identidad" class="form-control" required="true" data-required-error="El campo identidad no puede estar vacío."
-                        value="{{ old('identidad') }}" v-model="createCandidate.identidad" pattern="[0-9]{8}[A-Z]{1}" data-pattern-error="El DNI tiene que tener la siguiente estructura 00000000X" @blur="checkidentity">
+                      <label for="id">Nº Identidad</label>
+                      <input type="string" name="id" id="id" class="form-control" required="true" data-required-error="El campo identidad no puede estar vacío."
+                        value="{{ old('id') }}" v-model="createCandidate.id" pattern="[0-9]{8}[A-Z]{1}" data-pattern-error="El DNI tiene que tener la siguiente estructura 00000000X" @blur="checkidentity">
                       <span class="help-block with-errors"></span>
                     </div>
                   </div>
                   <div v-else class='col-sm-2'>
                     <div class='form-group'>
                       <label for="identidad">Nº Identidad</label>
-                      <input type="string" name="identidad" id="identidad" class="form-control" required="true" data-required-error="El campo identidad no puede estar vacío."
-                        value="{{ old('identidad') }}" v-model="createCandidate.identidad" pattern="[A-Z]{1}[0-9]{7}[A-Z]{1}" data-pattern-error="El NIE tiene que tener la siguiente estructura X0000000X" @blur="checkidentity">
+                      <input type="string" name="id" id="id" class="form-control" required="true" data-required-error="El campo identidad no puede estar vacío."
+                        value="{{ old('id') }}" v-model="createCandidate.id" pattern="[A-Z]{1}[0-9]{7}[A-Z]{1}" data-pattern-error="El NIE tiene que tener la siguiente estructura X0000000X" @blur="checkidentity">
                       <span class="help-block with-errors"></span>
                     </div>
                   </div>
@@ -69,7 +69,7 @@
                 <div class='col-sm-8 col-sm-offset-2'>
                   <div class='form-group'>
                     <label for="nombre">Nombre</label>
-                    <input type="string" name="nombre" id="nombre" class="form-control" required="true" data-required-error="El campo identidad no puede estar vacío."
+                    <input type="string" name="nombre" id="nombre" class="form-control" required="true" data-required-error="El campo nombre no puede estar vacío."
                       value="{{ old('nombre') }}" v-model="createCandidate.nombre">
                     <span class="help-block with-errors"></span>
                   </div>
@@ -77,7 +77,7 @@
                 <div class='col-sm-8 col-sm-offset-2'>
                   <div class='form-group'>
                     <label for="apellido1">Primer Apellido</label>
-                    <input type="string" name="apellido1" id="apellido1" class="form-control" required="true" data-required-error="El campo identidad no puede estar vacío."
+                    <input type="string" name="apellido1" id="apellido1" class="form-control" required="true" data-required-error="El campo primer apellido no puede estar vacío."
                       value="{{ old('apellido1') }}" v-model="createCandidate.apellido1">
                     <span class="help-block with-errors"></span>
                   </div>
@@ -85,7 +85,7 @@
                 <div class='col-sm-8 col-sm-offset-2'>
                   <div class='form-group'>
                     <label for="apellido2">Segundo Apellido</label>
-                    <input type="string" name="apellido2" id="apellido2" class="form-control" required="true" data-required-error="El campo identidad no puede estar vacío."
+                    <input type="string" name="apellido2" id="apellido2" class="form-control" required="true" data-required-error="El campo segundo apellido no puede estar vacío."
                       value="{{ old('apellido2') }}" v-model="createCandidate.apellido2">
                     <span class="help-block with-errors"></span>
                   </div>

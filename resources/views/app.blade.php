@@ -8,6 +8,7 @@
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
          <!-- Fonts -->
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" crossorigin="anonymous">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
         
     </head>
     <body>
@@ -17,10 +18,9 @@
         <a class="navbar-brand" href="#">Candidatus 2.0</a>
       </div>
       <ul class="nav navbar-nav">
-        <li class="active"><a href="/">Inicio</a></li>
-        <li><a href="/">Ofertas</a></li>
+        <li><a class="acti"href="/">Ofertas</a></li>
         <li><a href="/candidatos">Candidatos</a></li>
-        <li><a href="#">Candidaturas</a></li>
+        <li><a href="/candidaturas">Candidaturas</a></li>
       </ul>
     </div>
   </nav>

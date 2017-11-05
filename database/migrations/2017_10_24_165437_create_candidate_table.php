@@ -15,7 +15,7 @@ class CreateCandidateTable extends Migration
     {
         Schema::create('candidates', function (Blueprint $table) {
             $table->string('tipo_id');
-            $table->string('identidad')->unique();
+            $table->string('id')->unique();
             $table->date('fecha_nac');
             $table->string('genero');
             $table->string('nombre');

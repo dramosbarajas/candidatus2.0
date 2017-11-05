@@ -1,5 +1,7 @@
+axios.defaults.headers.common['X-CSRF-TOKEN'] = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
 var app = new Vue({
 	el: '#app',
+	/************************  VARIABLES  ***********************/
 	data: {
 		ofertas: '',
 		estado: "",
@@ -40,7 +42,7 @@ var app = new Vue({
 		countOffers: '',
 		createCandidate: {
 			'tipo_id': 'DNI',
-			'identidad': '',
+			'id': '',
 			'fecha_nac': '',
 			'genero': '',
 			'nombre': '',
@@ -57,7 +59,7 @@ var app = new Vue({
 		},
 		viewCandidate: {
 			'tipo_id': 'DNI',
-			'identidad': '',
+			'id': '',
 			'fecha_nac': '',
 			'edad':'',
 			'genero': '',
@@ -80,7 +82,16 @@ var app = new Vue({
 			'identidad':'',
 			'infocandidatos':'',
 		},
-
+		candidatescandidacy:'',
+		offerscandidacy:'',
+		candidacy:{
+			'offerid':'',
+			'candidateid':'',
+			'estado':'',
+			'entrevista':'',
+			'fecha_entrevista':'',
+			'observaciones':''
+		},
 
 
 	},
@@ -89,6 +100,7 @@ var app = new Vue({
 			return moment(date).format('DD/MM/YYYY');
 		}
 	},
+	/************************  ESTADO CREATED  ***********************/
 	created: function () {
 		this.getCountActive();
 		this.getOffer();
@@ -96,6 +108,7 @@ var app = new Vue({
 		this.getprovinces();
 
 	},
+	/************************  METODOS  ***********************/
 	methods: {
 		getOffer: function () {
 			console.log("VOY A  MOSTRARTE LAS OFERTAS")
@@ -258,7 +271,7 @@ var app = new Vue({
 			console.log("entrando")
 			var formData = new FormData($('#uploadcvform')[0]); 
 			$.ajax({
-				url: '/uploadCV',  //Server script to process data
+				url: '/uploadCV',
 				type: 'POST',
 				data: formData,
 				contentType: false,
@@ -284,8 +297,8 @@ var app = new Vue({
 
 		},
 		checkidentity: function () {
-			var url = "/checkidentity/" + this.createCandidate.identidad;
-			if(this.createCandidate.identidad != ''){
+			var url = "/checkidentity/" + this.createCandidate.id;
+			if(this.createCandidate.id != ''){
 				axios.get(url).then(response => {
 					if (response.data != 0) {
 						swal(
@@ -305,7 +318,7 @@ var app = new Vue({
 			console.log("llamada desde el formulario")
 			axios.post(url, {
 				tipo_id: this.createCandidate.tipo_id,
-				identidad: this.createCandidate.identidad,
+				id: this.createCandidate.id,
 				fecha_nac: this.createCandidate.fecha_nac,
 				genero: this.createCandidate.genero,
 				nombre: this.createCandidate.nombre,
@@ -319,7 +332,7 @@ var app = new Vue({
 				notas: this.createCandidate.notas,
 			}).then(response => {
 				this.createCandidate.tipo_id = '';
-				this.createCandidate.identidad = '';
+				this.createCandidate.id = '';
 				this.createCandidate.fecha_nac = '';
 				this.createCandidate.genero = '';
 				this.createCandidate.nombre = " ";
@@ -351,7 +364,7 @@ var app = new Vue({
 		findcandidate: function () {
 			var url = 'findcandidate';
 			axios.post(url,{
-				identidad: this.busquedacandidato.identidad
+				id: this.busquedacandidato.id
 			}).then(response => {
 				this.busquedacandidato.infocandidatos = response.data
 			});
@@ -379,7 +392,7 @@ var app = new Vue({
 			console.log(candidato);
 			console.log(candidato.nombre);
 			this.viewCandidate.tipo_id = candidato.tipo_id;
-			this.viewCandidate.identidad = candidato.identidad;
+			this.viewCandidate.id = candidato.id;
 			this.viewCandidate.fecha_nac = moment(candidato.fecha_nac).format('DD/MM/YYYY');
 			this.viewCandidate.edad = this.ages(candidato.fecha_nac);
 			this.viewCandidate.genero = candidato.genero;
@@ -400,7 +413,55 @@ var app = new Vue({
 			var hoy = moment();
 			var nacimiento = borndate;
 			return anios = hoy.diff(nacimiento,'years');
-		}
+		},
+
+		showmodalcandidacy: function() {
+			$('#createCandidacy').modal('show');
+		},
+		getofferscandidacy: function() {
+			let url = "/oget";
+			if(this.offerscandidacy == 0){
+				axios.get(url).then(response => {
+					this.offerscandidacy = response.data;
+				});
+			}
+			
+		},
+		getcandidatescandidacy: function() {
+			let url = "/cget";
+			if (this.candidatescandidacy == 0){
+				axios.get(url).then(response => {
+					this.candidatescandidacy = response.data;
+				});		
+			}
+		},
+		createcandidacy: function() {
+			console.log("llamada axios"); 
+			let url = "candidacy";
+			axios.post(url, {
+				offer_id: this.candidacy.offerid,
+				candidate_id: this.candidacy.candidateid,
+				estado: this.candidacy.estado,
+				entrevista: this.candidacy.entrevista,
+				fecha_entrevista: this.candidacy.fecha_entrevista,
+				observaciones: this.candidacy.observaciones,
+			}).then(response => {
+				$('#createCandidacy').modal('hide');
+				//toastr.success('Nueva candidato creado con éxito');
+				swal(
+					'Nuevo candidatura creada con éxito!',
+					'Pulsa el botón para cerrar esta ventana!',
+					'success',
+				)
+			}).catch(error => {
+				this.errors = error.response.data
+				swal(
+					'Oops...',
+					'Algo ha salido mal, por favor vuelve a intentarlo!',
+					'error'
+				)
+			});
+		},
 	},
 	
 

@@ -26,7 +26,7 @@ class CreateCandidateRequest extends FormRequest
     
         return [
             'tipo_id' => 'string|required',
-            'identidad' => 'string|required',
+            'id' => 'string|required',
             'fecha_nac' => 'date|required',
             'genero' => 'string|required', 
             'nombre' => 'string|required', 
@@ -41,7 +41,7 @@ class CreateCandidateRequest extends FormRequest
             'nacionalidad' => 'string|required', 
             'provincia' => 'integer|required', 
             'poblacion' => 'string|required', 
-            'notas' => 'string', 
+            
            
         ];
     }

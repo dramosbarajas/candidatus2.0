@@ -23,4 +23,8 @@ class Offer extends Model
         'vacante'
     ];
 
+    public function candidates()
+    {
+        return $this->belongsToMany(Candidate::class, 'candidate__offers');
+    }
 }
