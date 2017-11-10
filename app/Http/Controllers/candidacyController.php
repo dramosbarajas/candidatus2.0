@@ -10,7 +10,7 @@ use App\Candidate_Offer;
 class candidacyController extends Controller
 {
     public function oget () {
-        return response (Offer::get(['id','titulo']), 200);
+        return response (Offer::where('estado',1)->get(['id','titulo']), 200);
     }
 
     public function cget () {
@@ -19,9 +19,19 @@ class candidacyController extends Controller
      }
 
     public function store (Request $request){
-        
-        
-        Candidate_Offer::create($request->all());
-        return 200;
+        $result = Candidate_Offer::where(['offer_id'=> $request->offer_id , 'candidate_id' => $request->candidate_id])->get();
+        $result = $result->count();     
+        if($result === 0){
+            Candidate_Offer::create($request->all());
+            return response(500);
+        }else{
+            return response(500);
+        }
     }
+    public function checkvalidapar (Request $request){
+        $result = Candidate_Offer::where(['offer_id'=> $request->offer_id , 'candidate_id' => $request->candidate_id])->get();
+        $result = $result->count();     
+        return response($result,200);
+    }
+
 }

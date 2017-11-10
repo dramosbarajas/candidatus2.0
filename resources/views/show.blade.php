@@ -8,7 +8,7 @@
 				<h4>Visualizar Oferta</h4>
 			</div>
 			<div class="modal-body">
-			<h5>ID OFERTA @{{showOffer.id}}</h5>
+				<h5>ID OFERTA @{{showOffer.id}}</h5>
 				<span>
 					<strong>ESTADO</strong>
 				</span>
@@ -20,6 +20,7 @@
 				</span>
 				<div class="pull-right">
 
+
 					<span>
 						<strong>FECHA</strong>
 					</span>
@@ -29,55 +30,86 @@
 				<hr>
 				<span>
 					<strong>TÍTULO</strong>
-				</span>
 				<P>@{{showOffer.titulo}}</P>
+				</span>
 				<span>
 					<strong>DESCRIPCIÓN</strong>
-				</span>
 				<P>@{{showOffer.descripcion}}</P>
+				</span>
 				<span>
 					<strong>ESTUDIOS</strong>
-				</span>
 				<P>@{{showOffer.estudios}}</P>
+				</span>
 				<span>
 					<strong>EXPERIENCIA</strong>
+
+					<P v-if="showOffer.experiencia =='NNEC'">No Requerida</P>
+					<P v-else-if="showOffer.experiencia == '6M'">6 Meses</P>
+					<P v-else-if="showOffer.experiencia == '1A'">1 Año</P>
+					<P v-else-if="showOffer.experiencia == '2A'">2 Años</P>
+					<P v-else-if="showOffer.experiencia == '5A'">5 Años</P>
+					<P v-else>Mas de 10 años</P>
+					
+			
 				</span>
-				<P>@{{showOffer.experiencia}}</P>
 				<span>
 					<strong>CONTRATO</strong>
-				</span>
 				<P>@{{showOffer.contrato}}</P>
-				<span>
-					<strong>DURACIÓN</strong>
 				</span>
-				<P>@{{showOffer.duracion}}</P>
+				<span v-show="showOffer.contrato != 'Indefinido'">
+					<strong>DURACIÓN</strong>
+				<P>@{{showOffer.duracion}} Meses</P>
+				</span>
 				<span>
 					<strong>JORNADA</strong>
-				</span>
 				<P>@{{showOffer.jornada}}</P>
+				</span>
 				<span>
 					<strong>BANDA SALARIAL MINIMA</strong>
+				<P>@{{showOffer.bandamin}} €uros</P>
 				</span>
-				<P>@{{showOffer.bandamin}}</P>
 				<span>
 					<strong>BANDA SALARIAL MÁXIMA</strong>
+				<P>@{{showOffer.bandamax}} €uros</P>
 				</span>
-				<P>@{{showOffer.bandamax}}</P>
 				<span>
 					<strong>VACANTES</strong>
+					<P v-if="showOffer.vacante == 1">@{{showOffer.vacante}} Vacante</P>
+					<P v-else >@{{showOffer.vacante}} Vacantes</P>
+
 				</span>
-				<P>@{{showOffer.vacante}}</P>
+			<div v-show="flagshowcandidates != 0" class="container">
+				<div v-if="candidatesfromoffer != 0">
+				<h3>Candidatos en esta oferta</h3>
+				<h4 v-for="candidate in candidatesfromoffer">@{{candidate.nombre}} @{{candidate.apellido1}} @{{candidate.apellido2}}</h4>
+				</div>
+				<div v-else>
+				<h3>Esta oferta aún no dispone de candidatos.</h3>
+				</div>
+			</div>
 			</div>
 			<div class="modal-footer">
 				<div class="pull-left">
-				<a href="#" class="btn btn-primary" v-on:click.prevent="generateOfferPDF(showOffer.id)">
-                            <i class="fa fa-file-pdf-o 2x" aria-hidden="true"></i>
-                            </i> Exportar PDF</a>
+					<a href="#" class="btn btn-outline-primary" v-on:click.prevent="generateOfferPDF(showOffer.id)">
+						<i class="fa fa-file-pdf-o fa-2x" aria-hidden="true"></i>
+						</i> Exportar PDF</a>
+				</div>
+				<div class="pull-left">
+					<a v-show="flagshowcandidates == 0" href="#" class="btn btn-outline-info" v-on:click="flagshowcandidates = 1">
+						<i class="fa fa-users fa-2x" aria-hidden="true"></i>
+						Ver Candidatos
+						<i class="fa fa-chevron-down" aria-hidden="true"></i>
+					</a>
+					<a v-show="flagshowcandidates == 1" href="#" class="btn btn-outline-info" v-on:click="flagshowcandidates = 0">
+						<i class="fa fa-chevron-up fa-2x" aria-hidden="true"></i>
+						Cerrar Candidatos
+						<i class="fa fa-users fa-1x" aria-hidden="true"></i>
+					</a>
 				</div>
 				<div>
-				<button type="button" class="btn btn-info" data-dismiss="modal" value="Cerrar">
-				Cerrar
-				</button>
+					<button type="button" class="btn btn-info" data-dismiss="modal" value="Cerrar">
+						Cerrar
+					</button>
 				</div>
 				<h6>Candidatus 2.0 - Gestión RRHH</h6>
 			</div>

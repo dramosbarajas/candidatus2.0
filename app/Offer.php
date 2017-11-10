@@ -25,6 +25,6 @@ class Offer extends Model
 
     public function candidates()
     {
-        return $this->belongsToMany(Candidate::class, 'candidate__offers');
+        return $this->belongsToMany(Candidate::class, 'candidate__offers')->withPivot('estado', 'entrevista','fecha_entrevista','observaciones');
     }
 }

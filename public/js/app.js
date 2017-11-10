@@ -24421,6 +24421,7 @@ var app = new Vue({
 			'bandamax': "",
 			'vacante': "",
 		},
+		'candidatesfromoffer':"",
 		ofertaById: '',
 		countOffers: '',
 		createCandidate: {
@@ -24444,7 +24445,7 @@ var app = new Vue({
 			'tipo_id': 'DNI',
 			'id': '',
 			'fecha_nac': '',
-			'edad':'',
+			'edad': '',
 			'genero': '',
 			'nombre': '',
 			'apellido1': '',
@@ -24461,20 +24462,23 @@ var app = new Vue({
 		countries: '',
 		provinces: '',
 		towns: '',
-		busquedacandidato:{
-			'identidad':'',
-			'infocandidatos':'',
+		busquedacandidato: {
+			'identidad': '',
+			'infocandidatos': '',
 		},
-		candidatescandidacy:'',
-		offerscandidacy:'',
-		candidacy:{
-			'offerid':'',
-			'candidateid':'',
-			'estado':'',
-			'entrevista':'',
-			'fecha_entrevista':'',
-			'observaciones':''
+		candidatescandidacy: '',
+		offerscandidacy: '',
+		candidacy: {
+			'offerid': '',
+			'candidateid': '',
+			'estado': '',
+			'entrevista': '',
+			'fecha_entrevista': '',
+			'observaciones': ''
 		},
+		flagcheckpar: 0,
+		candidatesfromoffer:'',
+		flagshowcandidates:0,
 
 
 	},
@@ -24491,7 +24495,7 @@ var app = new Vue({
 		this.getprovinces();
 
 	},
-	/************************  METODOS  ***********************/
+	/************************  METODOS  *****************************/
 	methods: {
 		getOffer: function () {
 			console.log("VOY A  MOSTRARTE LAS OFERTAS")
@@ -24522,7 +24526,7 @@ var app = new Vue({
 			console.log(oferta)
 			this.showOffer.id = oferta.id;
 			this.showOffer.estado = oferta.estado;
-			this.showOffer.fecha = oferta.fecha;
+			this.showOffer.fecha = moment(oferta.fecha).format('DD/MM/YYYY');
 			this.showOffer.titulo = oferta.titulo;
 			this.showOffer.descripcion = oferta.descripcion;
 			this.showOffer.estudios = oferta.estudios;
@@ -24533,13 +24537,14 @@ var app = new Vue({
 			this.showOffer.bandamin = oferta.bandamin;
 			this.showOffer.bandamax = oferta.bandamax;
 			this.showOffer.vacante = oferta.vacante;
+			this.candidatesfromoffer = oferta.candidates;
 
 			console.log(this.showOffer.titulo)
 			$('#show').modal('show');
 		},
 		viewOfferID: function (oferta) {
 			console.log("MOSTRANDO OFERTAS POR ID ");
-			var urlGetOffer = "http://127.0.0.1:8000/offer/" + this.editOferta.id
+			var urlGetOffer = "/offer" + this.editOferta.id
 			axios.get(urlGetOffer).then(response => {
 				this.ofertaById = response.data
 			});
@@ -24652,36 +24657,32 @@ var app = new Vue({
 		uploadCV: function (e) {
 			e.preventDefault();
 			console.log("entrando")
-			var formData = new FormData($('#uploadcvform')[0]); 
+			var formData = new FormData($('#uploadcvform')[0]);
 			$.ajax({
 				url: '/uploadCV',
 				type: 'POST',
 				data: formData,
 				contentType: false,
 				processData: false,
-				success: function(result) {
-                    swal(
+				success: function (result) {
+					swal(
 						'Fichero subido con exito.',
 						'Pulsa el botón para cerrar esta ventana!',
 						'success'
 					)
-                },
-                error: function(result) {
-                    swal(
+				},
+				error: function (result) {
+					swal(
 						'Oops...',
 						'La identidad introducida ya se encuentra en nuestra base de datos.',
 						'error'
 					)
-                }
-			 });
-			 
-			
-
-
+				}
+			});
 		},
 		checkidentity: function () {
 			var url = "/checkidentity/" + this.createCandidate.id;
-			if(this.createCandidate.id != ''){
+			if (this.createCandidate.id != '') {
 				axios.get(url).then(response => {
 					if (response.data != 0) {
 						swal(
@@ -24692,8 +24693,6 @@ var app = new Vue({
 					}
 				});
 			};
-
-			
 		},
 		createcandidate: function () {
 			var url = 'candidate';
@@ -24746,12 +24745,20 @@ var app = new Vue({
 		},
 		findcandidate: function () {
 			var url = 'findcandidate';
-			axios.post(url,{
+			axios.post(url, {
 				id: this.busquedacandidato.id
 			}).then(response => {
 				this.busquedacandidato.infocandidatos = response.data
 			});
-			
+			if (this.busquedacandidato.infocandidatos == 0) {
+				swal(
+					'Oops...',
+					'No hemos encontrado ningún registro con los datos introducidos.',
+					'info'
+				)
+			}
+
+
 		},
 		getcountries: function () {
 			var url = 'countries';
@@ -24792,34 +24799,78 @@ var app = new Vue({
 
 			$('#viewCandidate').modal('show');
 		},
-		ages: function (borndate){
+		ages: function (borndate) {
 			var hoy = moment();
 			var nacimiento = borndate;
-			return anios = hoy.diff(nacimiento,'years');
+			return anios = hoy.diff(nacimiento, 'years');
 		},
 
-		showmodalcandidacy: function() {
+		showmodalcandidacy: function () {
 			$('#createCandidacy').modal('show');
 		},
-		getofferscandidacy: function() {
+		getofferscandidacy: function () {
 			let url = "/oget";
-			if(this.offerscandidacy == 0){
+			if (this.offerscandidacy == 0) {
 				axios.get(url).then(response => {
 					this.offerscandidacy = response.data;
 				});
-			}
-			
+
+				swal({
+					title: 'CARGANDO',
+					text: '',
+					timer: 2000,
+					allowOutsideClick: false,
+					allowEscapeKey: false,
+					allowEnterKey: false,
+					onOpen: function () {
+						swal.showLoading()
+					}
+				}).then(
+					function () {},
+					// handling the promise rejection
+					function (dismiss) {
+						if (dismiss === 'timer') {
+							console.log('I was closed by the timer')
+						}
+					}
+				)
+
+			};
+
+
 		},
-		getcandidatescandidacy: function() {
+		getcandidatescandidacy: function () {
 			let url = "/cget";
-			if (this.candidatescandidacy == 0){
+			if (this.candidatescandidacy == 0) {
 				axios.get(url).then(response => {
 					this.candidatescandidacy = response.data;
-				});		
+				});
 			}
 		},
-		createcandidacy: function() {
-			console.log("llamada axios"); 
+		checkvalidapar: function () {
+			let url = "/chkvpar";
+			if (this.flagcheckpar === 0) {
+				axios.post(url, {
+					offer_id: this.candidacy.offerid,
+					candidate_id: this.candidacy.candidateid,
+				}).then(response => {
+					if (response.data != 0) {
+						swal(
+							'Oops...',
+							'El candidato ya tiene una oferta con los mismos parámetros en la base de datos.',
+							'error'
+						)
+					} else {
+						this.flagcheckpar = 1;
+						$('#candidatos').prop("disabled", true);
+						$('#ofertas').prop("disabled", true);
+					}
+				});
+
+			}
+		},
+		createcandidacy: function () {
+			console.log("llamada axios");
 			let url = "candidacy";
 			axios.post(url, {
 				offer_id: this.candidacy.offerid,
@@ -24830,7 +24881,12 @@ var app = new Vue({
 				observaciones: this.candidacy.observaciones,
 			}).then(response => {
 				$('#createCandidacy').modal('hide');
-				//toastr.success('Nueva candidato creado con éxito');
+				this.candidacy.offerid = '';
+				this.candidacy.candidateid = '';
+				this.candidacy.estado = '';
+				this.candidacy.entrevista = '';
+				this.candidacy.fecha_entrevista = '';
+				this.candidacy.observaciones = '';
 				swal(
 					'Nuevo candidatura creada con éxito!',
 					'Pulsa el botón para cerrar esta ventana!',
@@ -24845,8 +24901,16 @@ var app = new Vue({
 				)
 			});
 		},
+		getCandidatesfromOffer: function(id){
+			let url = 'cfromo';
+			if (this.candidatesfromoffer == 0) {
+				axios.get(url).then(response => {
+					this.candidatesfromoffer = response.data;
+				});
+			}
+		}
 	},
-	
+
 
 })
 /*!

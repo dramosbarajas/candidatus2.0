@@ -38,3 +38,5 @@ Route::post('/findcandidate','candidateController@findcandidate');
 Route::post('/uploadCV','candidateController@uploadCV')->name('uploadCV');
 Route::get('/oget','candidacyController@oget');
 Route::get('/cget','candidacyController@cget');
+Route::get('/cfromo','offerController@candidatesfromoffer');
+Route::post('/chkvpar','candidacyController@checkvalidapar');

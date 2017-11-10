@@ -10,8 +10,8 @@ class offerController extends Controller
    
     public function index()
     {
-        return response (Offer::orderBy('estado', 'DESC')->get(), 200);
-        //return Offer::with('candidates')->get();
+        //return response (Offer::orderBy('estado', 'DESC')->get(), 200);
+        return Offer::with('candidates')->orderBy('estado', 'DESC')->get();
             
     
     }
@@ -32,7 +32,7 @@ class offerController extends Controller
 
     public function show($id)
     {
-        return response ( Offer::get() -> where ('id', $id), 200);
+        return response (Offer::get() -> where ('id', $id), 200);
     }
 
     public function update(Request $request, $id)
@@ -48,4 +48,14 @@ class offerController extends Controller
         $offer->delete();
         return (204);
     }
+
+    public function candidatesfromoffer($id)
+    {
+        
+        return Offer::with('candidates')->get();$offer = Offer::findOrFail($id);
+        $offer->delete();
+        return (204);
+    }
+
+    
 }

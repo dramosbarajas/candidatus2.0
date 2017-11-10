@@ -48,8 +48,12 @@
                       <option v-for="candidate in candidatescandidacy" :value="candidate.id">@{{candidate.id}} - @{{candidate.nombre}} @{{candidate.apellido1}} @{{candidate.apellido2}}</option>
                     </select>
                     <span class="help-block with-errors"></span>
+                  <button type="button" class="btn btn-warning" @click="checkvalidapar">
+                    <i class="fa fa-refresh fa-1x" aria-hidden="true"></i>
+                    Verificar Datos
+                  </button>
                   </div>
-                  <div v-show="candidatescandidacy != 0">
+                  <div v-show="flagcheckpar === 1">
                     <h3>Datos Candidatura</h3>
                     <div class="col-sm-12">
                       <div class='form-group'>
@@ -82,7 +86,7 @@
                       <div v-else class='form-group'>
                         <label for="fecha_entrevista">Fecha Entrevista</label>
                         <input type="date" name="fecha_entrevista" id="fecha_entrevista" class="form-control" v-model="candidacy.fecha_entrevista"
-                           disabled>
+                          disabled>
                         <span class="help-block with-errors"></span>
                       </div>
 
