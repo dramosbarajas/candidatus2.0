@@ -8,9 +8,9 @@
         <button type="button" class="btn btn-info">
             <i class="fa fa-refresh fa-1x" aria-hidden="true"></i>
             Actualizar</button>
-        <button type="button" class="btn btn-info" @click="createcandidate">
+        <button type="button" class="btn btn-info" @click="getcandidatesall">
             <i class="fa fa-refresh fa-1x" aria-hidden="true"></i>
-            Probar</button>
+            Mostrar Todos</button>
         <div>
             <h3>Búsqueda de Candidatos.</h3>
             <div>
@@ -27,6 +27,19 @@
                         </div>
                     </div>
                 </form>
+                    <div v-show="candidatesall != 0" class="container-fluid">
+                        <div class="card" v-for="candidate in candidatesall" style="display:inline-block;width: 18rem;margin-bottom:1rem;">
+                        <img v-if="candidate.genero == 'Hombre'"class="card-img-top" src="{{ asset('img/008-man-2.png') }}" alt="Card image cap">
+                            <img v-else class="card-img-top" src="{{ asset('img/007-girl.png') }}" alt="Card image cap">
+                            <div class="card-block">
+                                <h4 class="card-title">@{{candidate.nombre}}</h4>
+                                <h4 class="card-title">@{{candidate.apellido1}}</h4>
+                                <h4 class="card-title">@{{candidate.apellido2}}</h4>
+                                <h6 class="card-text">@{{candidate.tipo_id}} - @{{candidate.id}}</h6>
+                                <a href="#" class="btn btn-primary" @click="viewcandidate(candidate)">Mas información</a>
+                            </div>
+                        </div>
+                    </div>
                     <div v-if="busquedacandidato.infocandidatos != 0">
                         <table class="table table-hover table-striped">
                             <thead>

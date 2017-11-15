@@ -19,8 +19,11 @@ class candidateController extends Controller
 
     public function findcandidate(Request $request)
     {
-
-        return response(Candidate::where('id', $request->id)->get(),200);
+        if ($request->isJson()) {
+            return response()->json(Candidate::where('id', $request->id)->get(),200);
+        } else {
+            return response()->json(['error' => 'Unauthorized'], 401, []);
+        }
         
     }
 

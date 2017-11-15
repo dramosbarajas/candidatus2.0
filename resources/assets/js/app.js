@@ -75,6 +75,7 @@ var app = new Vue({
 			'cv': '',
 			'cvfile': '',
 			'notas': '',
+			
 		},
 		countries: '',
 		provinces: '',
@@ -95,8 +96,10 @@ var app = new Vue({
 		},
 		flagcheckpar: 0,
 		candidatesfromoffer:'',
+		offersfromcandidate:'',
 		flagshowcandidates:0,
 		fnow:'',
+		candidatesall:'',
 
 
 	},
@@ -348,9 +351,25 @@ var app = new Vue({
 		generateOfferPDF: function (id) {
 			console.log('generar PDF del ID ////  ' + id);
 		},
+		getcandidatesall: function(){
+			let configAxios = {
+				url:'candidate',
+				method:'get',
+				reponseType:'json',
+				data:{},
+				headers:{
+					'X-CSRF-TOKEN':document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+					'Content-Type': 'application/json'
+				}
+			}
+			axios.request(configAxios).then(response =>{
+				this.candidatesall = response.data;
+			})	
+
+		},
+
 		uploadCV: function (e) {
 			e.preventDefault();
-			console.log("entrando")
 			var formData = new FormData($('#uploadcvform')[0]);
 			$.ajax({
 				url: '/uploadCV',
@@ -358,17 +377,22 @@ var app = new Vue({
 				data: formData,
 				contentType: false,
 				processData: false,
+				headers:{
+					'X-CSRF-TOKEN':document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+					
+				},
 				success: function (result) {
 					swal(
 						'Fichero subido con exito.',
 						'Pulsa el botón para cerrar esta ventana!',
 						'success'
 					)
+					this.getcandidatesall();
 				},
 				error: function (result) {
 					swal(
 						'Oops...',
-						'La identidad introducida ya se encuentra en nuestra base de datos.',
+						'Algo ha fallado...',
 						'error'
 					)
 				}
@@ -385,7 +409,7 @@ var app = new Vue({
 							'error'
 						)
 					}
-					this.createCandidate.id = '';
+					
 				});
 			};
 		},
@@ -439,10 +463,19 @@ var app = new Vue({
 			});
 		},
 		findcandidate: function () {
-			var url = 'findcandidate';
-			axios.post(url, {
-				id: this.busquedacandidato.id
-			}).then(response => {
+			let configAxios = {
+				url:'findcandidate',
+				method:'post',
+				reponseType:'json',
+				data:{
+					id: this.busquedacandidato.id
+				},
+				headers:{
+					'X-CSRF-TOKEN':document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+					'Content-Type': 'application/json'
+				}
+			}
+			axios.request(configAxios).then(response => {
 				if(response.data != 0 ){
 					this.busquedacandidato.infocandidatos = response.data
 					}else{
@@ -491,6 +524,7 @@ var app = new Vue({
 			this.viewCandidate.poblacion = candidato.poblacion;
 			this.viewCandidate.notas = candidato.notas;
 			this.viewCandidate.cv = candidato.cv;
+			this.offersfromcandidate = candidato.offers;
 			$('#show').modal('hide');
 			$('#viewCandidate').modal('show');
 		},
