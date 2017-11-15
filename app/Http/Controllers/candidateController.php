@@ -8,8 +8,8 @@ class candidateController extends Controller
 {
     
     public function index(){
-        return  Candidate::get();
-        //return Candidate::with('offers')->get();
+        //return  Candidate::get();
+        return Candidate::with('offers')->get();
     }
     public function checkidentity($id)
     {

@@ -24381,7 +24381,7 @@ return /******/ (function(modules) { // webpackBootstrap
 });
 ;
 //# sourceMappingURL=axios.map
-axios.defaults.headers.common['X-CSRF-TOKEN'] = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+
 var app = new Vue({
 	el: '#app',
 	/************************  VARIABLES  ***********************/
@@ -24479,6 +24479,7 @@ var app = new Vue({
 		flagcheckpar: 0,
 		candidatesfromoffer:'',
 		flagshowcandidates:0,
+		fnow:'',
 
 
 	},
@@ -24493,21 +24494,38 @@ var app = new Vue({
 		this.getOffer();
 		this.getcountries();
 		this.getprovinces();
-
 	},
 	/************************  METODOS  *****************************/
 	methods: {
-		getOffer: function () {
-			console.log("VOY A  MOSTRARTE LAS OFERTAS")
-			var urlGetOffer = "http://127.0.0.1:8000/offer"
-			axios.get(urlGetOffer).then(response => {
+		getOffer: function () 
+		{
+			let configAxios = {
+				url:'/offer',
+				method:'get',
+				reponseType:'json',
+				data:{},
+				headers:{
+					'X-CSRF-TOKEN':document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+					'Content-Type': 'application/json'
+				}
+			}
+			axios.request(configAxios).then(response => {
 				this.ofertas = response.data
 			});
 
 		},
 		getCountActive: function () {
-			var urlCountOffers = "http://127.0.0.1:8000/countOffers"
-			axios.get(urlCountOffers).then(response => {
+			let configAxios = {
+				url:'/countOffers',
+				method:'get',
+				reponseType:'json',
+				data:{},
+				headers:{
+					'X-CSRF-TOKEN':document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+					'Content-Type': 'application/json'
+				}
+			}
+			axios.request(configAxios).then(response => {
 				this.countOffers = response.data
 			});
 
@@ -24522,8 +24540,8 @@ var app = new Vue({
 		},
 
 		viewOffer: function (oferta) {
-			console.log("MOSTRANDO OFERTAS ");
-			console.log(oferta)
+			//seteo de variables que va recibir el modal
+
 			this.showOffer.id = oferta.id;
 			this.showOffer.estado = oferta.estado;
 			this.showOffer.fecha = moment(oferta.fecha).format('DD/MM/YYYY');
@@ -24538,38 +24556,24 @@ var app = new Vue({
 			this.showOffer.bandamax = oferta.bandamax;
 			this.showOffer.vacante = oferta.vacante;
 			this.candidatesfromoffer = oferta.candidates;
-
-			console.log(this.showOffer.titulo)
+			//Apertura del Modal 
 			$('#show').modal('show');
 		},
-		viewOfferID: function (oferta) {
-			console.log("MOSTRANDO OFERTAS POR ID ");
-			var urlGetOffer = "/offer" + this.editOferta.id
-			axios.get(urlGetOffer).then(response => {
-				this.ofertaById = response.data
-			});
-			this.showOffer.id = ofertaById.id;
-			this.showOffer.estado = ofertaById.estado;
-			this.showOffer.fecha = ofertaById.fecha;
-			this.showOffer.titulo = ofertaById.titulo;
-			this.showOffer.descripcion = ofertaById.descripcion;
-			this.showOffer.estudios = ofertaById.estudios;
-			this.showOffer.experiencia = ofertaById.experiencia;
-			this.showOffer.contrato = ofertaById.contrato;
-			this.showOffer.duracion = ofertaById.duracion;
-			this.showOffer.jornada = ofertaById.jornada;
-			this.showOffer.bandamin = ofertaById.bandamin;
-			this.showOffer.bandamax = ofertaById.bandamax;
-			this.showOffer.vacante = ofertaById.vacante;
-			$('#edit').modal('hide');
-			$('#show').modal('show');
-		},
+	
 		updateOffer: function (id) {
-			console.log("listo para actualizar ");
-			console.log(id)
-			console.log(this.editOferta.estado)
-			var url = 'offer/' + id;
-			axios.put(url, this.editOferta).then(response => {
+			//var url = 'offer/' + id;
+			let configAxios = {
+				url:'offer/' + id,
+				method:'put',
+				reponseType:'json',
+				data:{
+					'estado':this.editOferta.estado},
+				headers:{
+					'X-CSRF-TOKEN':document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+					'Content-Type': 'application/json'
+				}
+			}
+			axios.request(configAxios).then(response => {
 				this.getOffer();
 				this.editOferta = {
 					'id': '',
@@ -24578,57 +24582,145 @@ var app = new Vue({
 				};
 				this.errors = [];
 				$('#edit').modal('hide');
-				toastr.success('Tarea actualizada con éxito');
+				swal(
+					'OFERTA EDITADA CORRECTAMENTE.',
+					'La oferta ha sido editada correctamente.',
+					'success',
+
+				)
 			}).catch(error => {
-				toastr.error('Vaya algo ha salido mal.');
+				swal(
+					'Opss!',
+					'Vaya algo ha salido mal!',
+					'error'
+				)
 				this.errors = error.response.data
 			});
 			this.getCountActive();
 		},
 
 		deleteOffer: function (id) {
-			var url = 'offer/' + id;
-			axios.delete(url).then(response => { //eliminamos
+			let configAxios = {
+				url:'offer/' + id,
+				method:'delete',
+				reponseType:'json',
+				data:{},
+				headers:{
+					'X-CSRF-TOKEN':document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+					'Content-Type': 'application/json'
+				}
+			}
+			swal({
+				title: 'Are you sure?',
+				text: "You won't be able to revert this!",
+				type: 'warning',
+				showCancelButton: true,
+				confirmButtonColor: '#3085d6',
+				cancelButtonColor: '#d33',
+				confirmButtonText: 'Yes, delete it!'
+				}).then(function(isConfirm){
+				  if (isConfirm) {
+				  console.log("al ataquerrrr");
+				  axios.request(configAxios).then(response => { //eliminamos
+					$('#edit').modal('hide');
+					console.log(response);
+			  		})		   
+				  }
+				  
+				})
+				this.getOffer(); //listamos
+				console.log("fuera object")
+				this.getCountActive();
+			/*swal({
+				title: '¿Estas Seguro?',
+				text: "Este cambio no puede ser revertido!",
+				type: 'warning',
+				showCancelButton: true,
+				confirmButtonColor: '#3085d6',
+				cancelButtonColor: '#d33',
+				cancelButtonText: 'Cancelar',
+				confirmButtonText: 'Si, deseo borrarlo!'
+			  }).then(function () {
+				axios.request(configAxios).then(response => { //eliminamos
+					$('#edit').modal('hide');
+					console.log(response);
+			  //})
+			  
+			
+		})
+			});
+			
+			swal({   //removed the brackets from session because laracasts doesn't show them 
+			title: '¿Estas Seguro?',   
+			text: "Este cambio no puede ser revertido y puede implicar borrar las candidaturas asignadas a esta oferta.",   
+			type: "warning",   
+			showCancelButton: true,   
+			confirmButtonColor: "#DD6B55",   
+			confirmButtonText: "Yes, delete it!",   
+			cancelButtonText: "No, cancel please!",   
+			},
+			function(isConfirm){   
+			  if (isConfirm) 
+				{  
+				
+				  swal(
+					'Oferta eliminada correctamente.',
+					'Pulsa el botón para cerrar esta ventana!',
+					'success'
+				)  
 				this.getOffer(); //listamos
 				this.getCountActive();
-				toastr.success('Eliminado correctamente'); //mensaje
-			});
+				} 
+		
+			  else
+				{     
+				  swal("Cancelled", "Your file is safe", "error");   
+				}
+			  });	*/
 		},
-		comprobarIndefinido: function () {
-			if (this.contrato != "Indefinido") {
-				$("#duracion").prop("disabled", false);
-			} else {
-				$("#duracion").prop("disabled", true);
-				$("#duracion").text = 0;
-				this.duracion = 0;
-			}
-		},
+		
 		comprobarBandaSalarial: function () {
-			if (this.bandamin < this.bandamax) {
+			if (this.bandamin <= this.bandamax) {
 				$("#enviarAltaOferta").prop("disabled", false);
 			} else {
-				alert("El importe de máximo ha de ser mayor que el importe mínimo.");
+				swal(
+					'ERROR.',
+					'El importe no puede ser menor que el campo banda mínima.',
+					'warning'
+				)
 				$("#enviarAltaOferta").prop("disabled", true);
 			}
-
+			
 		},
 		createOffer: function () {
-			var url = 'offer';
-			axios.post(url, {
-				estado: this.estado,
-				fecha: this.fecha,
-				titulo: this.titulo,
-				descripcion: this.descripcion,
-				departamento: this.departamento,
-				estudios: this.estudios,
-				experiencia: this.experiencia,
-				contrato: this.contrato,
-				duracion: this.duracion,
-				jornada: this.jornada,
-				bandamin: this.bandamin,
-				bandamax: this.bandamax,
-				vacante: this.vacante
-			}).then(response => {
+			if(this.duracion == ''){
+				this.duracion = 0;
+			}
+			let configAxios = {
+				url:'offer',
+				method:'post',
+				reponseType:'json',
+				data:{
+					estado: this.estado,
+					fecha: this.fecha,
+					titulo: this.titulo,
+					descripcion: this.descripcion,
+					departamento: this.departamento,
+					estudios: this.estudios,
+					experiencia: this.experiencia,
+					contrato: this.contrato,
+					duracion: this.duracion,
+					jornada: this.jornada,
+					bandamin: this.bandamin,
+					bandamax: this.bandamax,
+					vacante: this.vacante
+				},
+				headers:{
+					'X-CSRF-TOKEN':document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+					'Content-Type': 'application/json'
+				}
+			}
+			axios.request(configAxios).then(response => {
 				this.estado = '';
 				this.fecha = '';
 				this.titulo = '';
@@ -24646,8 +24738,17 @@ var app = new Vue({
 				$('#create').modal('hide');
 				this.getOffer();
 				this.getCountActive();
-				toastr.success('Nueva oferta creada con éxito');
+				swal(
+					'OFERTA CREADA',
+					'La oferta se ha creado correctamente.',
+					'success'
+				)
 			}).catch(error => {
+				swal(
+					'OPSS!!.',
+					'Vaya algo ha fallado...',
+					'warning'
+				)
 				this.errors = error.response.data
 			});
 		},
@@ -24849,7 +24950,7 @@ var app = new Vue({
 		},
 		checkvalidapar: function () {
 			let url = "/chkvpar";
-			if (this.flagcheckpar === 0) {
+			if (this.flagcheckpar === 0 && this.candidacy.offerid != '' && this.candidacy.candidateid != '') {
 				axios.post(url, {
 					offer_id: this.candidacy.offerid,
 					candidate_id: this.candidacy.candidateid,

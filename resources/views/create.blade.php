@@ -104,7 +104,7 @@
           <div class='col-sm-3 col-sm-offset-1'>
             <div class='form-group'>
               <label for="contrato">CONTRATO</label>
-              <select id="contrato" name="contrato" class="form-control" v-on:change="comprobarIndefinido" v-model="contrato">
+              <select id="contrato" name="contrato" class="form-control" v-model="contrato">
                 <option value="De duración determinada">De duración determinada</option>
                 <option value="Indefinido">Indefinido</option>
                 <option value="Otros Contratos">Otros Contratos</option>
@@ -120,8 +120,9 @@
             <div class='form-group'>
               <label for="estudiomin">DURACIÓN</label>
               <div class="input-group">
-              <input id="duracion" name="duracion" class="form-control input-md" required="true" type="text"
+              <input v-if="contrato != 'Indefinido'" id="duracion" name="duracion" class="form-control input-md" required="true" type="text"
                 pattern="[0-9]{1,2}" data-required-error="El campo no puede estar vacío." data-pattern-error="El campo solo puede contener digitos." v-model="duracion">
+                <input v-else id="duracion" name="duracion" class="form-control input-md" type="text" v-model="duracion" disabled>
                 <span class="input-group-addon"><strong>MESES</strong></span> 
               </div>
               <span class="help-block with-errors"></span>
@@ -155,7 +156,7 @@
               <label for="bandamax">BANDA MÁXIMA</label>
               <div class="input-group">
               <input type="text" name="bandamax" id="bandamax" class="form-control" required="true" placeholder="00000" pattern="[0-9]{4,5}"
-                data-required-error="El campo no puede estar vacío." v-model="bandamax" data-pattern-error="El campo solo puede contener entre 4 y 5 digitos." v-on:change="comprobarBandaSalarial(value)">
+                data-required-error="El campo no puede estar vacío." v-model="bandamax" data-pattern-error="El campo solo puede contener entre 4 y 5 digitos." v-on:change="comprobarBandaSalarial()">
                <span class="input-group-addon"><strong>€ ANUAL</strong></span>  
               </div>
               <span class="help-block with-errors error"></span>
@@ -167,7 +168,8 @@
               <div class="input-group">
               <input type="text" name="vacante" id="vacante" class="form-control" required="true" placeholder="0" pattern="[0-9]{1,2}"
                 data-required-error="El campo no puede estar vacío." data-pattern-error="El campo solo puede contener digitos." v-model="vacante">
-                <span class="input-group-addon">USU</span> 
+                <span v-if="vacante != 1"class="input-group-addon"><strong>VACANTES</strong></span> 
+                <span v-else class="input-group-addon"><strong>VACANTE</strong></span> 
               </div>
               <span class="help-block with-errors"></span>
             </div>

@@ -16,9 +16,9 @@ class CreateCandidateOffersTable extends Migration
         Schema::create('candidate__offers', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('offer_id')->unsigned();
-            $table->foreign('offer_id')->references('id')->on('offers');
+            $table->foreign('offer_id')->references('id')->on('offers')->onDelete('cascade');
             $table->string('candidate_id');
-            $table->foreign('candidate_id')->references('id')->on('candidates');
+            $table->foreign('candidate_id')->references('id')->on('candidates')->onDelete('cascade');
             $table->string('estado');
             $table->boolean('entrevista');
             $table->date('fecha_entrevista')->nullable();
@@ -38,4 +38,6 @@ class CreateCandidateOffersTable extends Migration
     {
         Schema::dropIfExists('candidate__offers');
     }
+
+    
 }

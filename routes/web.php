@@ -23,7 +23,7 @@ Route::get('/candidaturas', function () {
 });
 
 
-Route::resource('offer','offerController');
+Route::resource('offer','offerController')->except(['show','create','edit']);
 Route::resource('candidate','candidateController');
 Route::resource('candidacy','candidacyController');
 

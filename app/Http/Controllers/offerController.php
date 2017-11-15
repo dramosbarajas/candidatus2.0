@@ -8,54 +8,75 @@ use App\Offer;
 class offerController extends Controller
 {
    
-    public function index()
+    public function index(Request $request)
     {
-        //return response (Offer::orderBy('estado', 'DESC')->get(), 200);
-        return Offer::with('candidates')->orderBy('estado', 'DESC')->get();
-            
-    
+        
+        if ($request->isJson()) {
+            return Offer::with('candidates')->orderBy('estado', 'DESC')->get();
+        } else {
+            return response()->json(['error' => 'Unauthorized'], 401, []);
+        }
+        
     }
 
-    public function countOffers()
+    public function countOffers(Request $request)
     {
-        $countactives = Offer::where('estado', 1)->count();
-        $countclosed = Offer::where('estado', 0)->count();
-        return response()
-        ->json(['actives' => $countactives, 'closed' => $countclosed]);
+       
+        if ($request->isJson()) {
+            $countactives = Offer::where('estado', 1)->count();
+            $countclosed = Offer::where('estado', 0)->count();
+            return response()
+            ->json(['actives' => $countactives, 'closed' => $countclosed]);
+        } else {
+            return response()->json(['error' => 'Unauthorized'], 401, []);
+        }
+
     }
 
     public function store(\App\Http\Requests\CreateOfferRequest $request)
     {
-        Offer::create($request->all());
-        return;
-    }
+        
+        if ($request->isJson()) {
+            Offer::create($request->all());
+            return response()->json($request, 201);
+        } else {
+            return response()->json(['error' => 'Unauthorized'], 401, []);
+        }
 
-    public function show($id)
-    {
-        return response (Offer::get() -> where ('id', $id), 200);
     }
 
     public function update(Request $request, $id)
     {
-        
-        Offer::find($id)->update($request->all());
-        return;
+   
+        if ($request->isJson()) {
+            if($request->estado != '' && is_numeric($request->estado)){
+                try {
+                    Offer::find($id)->update($request->all());
+                    return response()->json([], 200, []);
+                } catch (ModelNotFoundException $e) {
+            }
+                return response()->json(['error' => 'No content or Error content'], 406);
+            }
+        } else {
+            return response()->json(['error' => 'Unauthorized'], 401, []);
+        }
+
     }
 
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        $offer = Offer::findOrFail($id);
-        $offer->delete();
-        return (204);
-    }
+       
+        if ($request->isJson()) {
+            try {
+                $offer = Offer::findOrFail($id);
+                $offer->delete();
+                return response()->json($offer, 200);
+            } catch (ModelNotFoundException $e) {
+                return response()->json(['error' => 'No content'], 406);
+            }
+        } else {
+            return response()->json(['error' => 'Unauthorized'], 401, []);
+        }
 
-    public function candidatesfromoffer($id)
-    {
-        
-        return Offer::with('candidates')->get();$offer = Offer::findOrFail($id);
-        $offer->delete();
-        return (204);
-    }
-
-    
+    }    
 }

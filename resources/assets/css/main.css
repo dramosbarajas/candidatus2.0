@@ -5,3 +5,9 @@
 .activa{
   color: green;
 }
+
+.fueraplazo{
+  color: orange;
+  font-weight: bold;
+  text-decoration: underline;
+}

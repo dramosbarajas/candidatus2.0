@@ -27,11 +27,14 @@
             </thead>
             <tbody>
                 <tr v-for="oferta in ofertas">
-                    <td v-if="oferta.estado != 0" class="activa">
-                        <strong>ACTIVA</strong>
+                    <td v-if="oferta.estado != 0 && new Date(oferta.fecha) < new Date()" class="fueraplazo">
+                        <strong>FUERA DE PLAZO</strong>
                     </td>
-                    <td v-else class="cerrada">
+                    <td v-else-if="oferta.estado == 0"class="cerrada">
                         <strong>CERRADA</strong>
+                    </td>
+                    <td v-else class="activa">
+                        <strong>ACTIVA</strong>
                     </td>
                     <td>@{{oferta.titulo}}</td>
                     <td>@{{oferta.fecha | moment}}</td>
