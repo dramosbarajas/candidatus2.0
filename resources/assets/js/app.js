@@ -114,6 +114,9 @@ var app = new Vue({
 	},
 	/************************  METODOS  *****************************/
 	methods: {
+		getoffer:function(){
+			console.log('tocate un pie');
+		},
 		getOffer: function () 
 		{
 			let configAxios = {
@@ -178,7 +181,6 @@ var app = new Vue({
 		},
 	
 		updateOffer: function (id) {
-			//var url = 'offer/' + id;
 			let configAxios = {
 				url:'offer/' + id,
 				method:'put',
@@ -217,7 +219,7 @@ var app = new Vue({
 		},
 
 		deleteOffer: function (id) {
-			let configAxios = {
+			/*let configAxios = {
 				url:'offer/' + id,
 				method:'delete',
 				reponseType:'json',
@@ -227,73 +229,47 @@ var app = new Vue({
 					'Content-Type': 'application/json'
 				}
 			}
+			axios.request(configAxios).then(response => { //eliminamos
+				$('#edit').modal('hide');
+				this.getOffer();
+				this.getCountActive();
+	
+			})*/
 			swal({
 				title: 'Are you sure?',
-				text: "You won't be able to revert this!",
+				text: "It will be deleted permanently!",
 				type: 'warning',
 				showCancelButton: true,
 				confirmButtonColor: '#3085d6',
 				cancelButtonColor: '#d33',
-				confirmButtonText: 'Yes, delete it!'
-				}).then(function(isConfirm){
-				  if (isConfirm) {
-				  console.log("al ataquerrrr");
-				  axios.request(configAxios).then(response => { //eliminamos
-					$('#edit').modal('hide');
-					console.log(response);
-			  		})		   
-				  }
+				confirmButtonText: 'Yes, delete it!',
+				showLoaderOnConfirm: true,
 				  
-				})
-				this.getOffer(); //listamos
-				console.log("fuera object")
-				this.getCountActive();
-			/*swal({
-				title: '¿Estas Seguro?',
-				text: "Este cambio no puede ser revertido!",
-				type: 'warning',
-				showCancelButton: true,
-				confirmButtonColor: '#3085d6',
-				cancelButtonColor: '#d33',
-				cancelButtonText: 'Cancelar',
-				confirmButtonText: 'Si, deseo borrarlo!'
-			  }).then(function () {
-				axios.request(configAxios).then(response => { //eliminamos
-					$('#edit').modal('hide');
-					console.log(response);
-			  //})
-			  
-			
-		})
-			});
-			
-			swal({   //removed the brackets from session because laracasts doesn't show them 
-			title: '¿Estas Seguro?',   
-			text: "Este cambio no puede ser revertido y puede implicar borrar las candidaturas asignadas a esta oferta.",   
-			type: "warning",   
-			showCancelButton: true,   
-			confirmButtonColor: "#DD6B55",   
-			confirmButtonText: "Yes, delete it!",   
-			cancelButtonText: "No, cancel please!",   
-			},
-			function(isConfirm){   
-			  if (isConfirm) 
-				{  
-				
-				  swal(
-					'Oferta eliminada correctamente.',
-					'Pulsa el botón para cerrar esta ventana!',
-					'success'
-				)  
-				this.getOffer(); //listamos
-				this.getCountActive();
-				} 
-		
-			  else
-				{     
-				  swal("Cancelled", "Your file is safe", "error");   
-				}
-			  });	*/
+				preConfirm: function() {
+				  return new Promise(function(resolve) {
+					   
+					 $.ajax({
+						   url: 'offer/' + id,
+						   type: 'DELETE',
+						  
+						   dataType: 'json',
+						   headers:{
+							'X-CSRF-TOKEN':document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+							'Content-Type': 'application/json'
+						},
+					 })
+					 .done(function(response){
+						 swal('Deleted!', response.message, response.status);
+						
+					 })
+					 .fail(function(){
+						 swal('Oops...', 'Something went wrong with ajax !', 'error');
+					 });
+				  });
+				},
+				allowOutsideClick: false			  
+			});	
+
 		},
 		
 		comprobarBandaSalarial: function () {
@@ -409,6 +385,7 @@ var app = new Vue({
 							'error'
 						)
 					}
+					this.createCandidate.id = '';
 				});
 			};
 		},
@@ -466,16 +443,16 @@ var app = new Vue({
 			axios.post(url, {
 				id: this.busquedacandidato.id
 			}).then(response => {
-				this.busquedacandidato.infocandidatos = response.data
+				if(response.data != 0 ){
+					this.busquedacandidato.infocandidatos = response.data
+					}else{
+					swal(
+						'Oops...',
+						'No hemos encontrado ningún registro con los datos introducidos.',
+						'info'
+						)
+				}
 			});
-			if (this.busquedacandidato.infocandidatos == 0) {
-				swal(
-					'Oops...',
-					'No hemos encontrado ningún registro con los datos introducidos.',
-					'info'
-				)
-			}
-
 
 		},
 		getcountries: function () {
@@ -514,7 +491,7 @@ var app = new Vue({
 			this.viewCandidate.poblacion = candidato.poblacion;
 			this.viewCandidate.notas = candidato.notas;
 			this.viewCandidate.cv = candidato.cv;
-
+			$('#show').modal('hide');
 			$('#viewCandidate').modal('show');
 		},
 		ages: function (borndate) {

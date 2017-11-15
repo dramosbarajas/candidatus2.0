@@ -51,13 +51,11 @@
             </tbody>
         </table>
         @include('show')
+        @include('viewCandidate')
+        @include('viewCandidacy')
         @include('edit')
         @include('create')
     </div>
-    <div class="col-sm-6">
-        <pre>
-			@{{ ofertas }}
-		</pre>
-    </div>
+    
 </div>
 @stop

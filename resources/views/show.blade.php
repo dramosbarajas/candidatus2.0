@@ -79,9 +79,33 @@
 
 				</span>
 			<div v-show="flagshowcandidates != 0" class="container">
-				<div v-if="candidatesfromoffer != 0">
+				<div v-if="candidatesfromoffer != 0" class="container">
 				<h3>Candidatos en esta oferta</h3>
-				<h4 v-for="candidate in candidatesfromoffer">@{{candidate.nombre}} @{{candidate.apellido1}} @{{candidate.apellido2}}</h4>
+				<table class="table table-hover table-striped" style="width:150px">
+					<thead>
+						<tr>
+						<th>ID</th>
+						<th>Nombre</th>
+						<th>Apellidos</th>
+						<th>Ver Candidato</th>
+						<th>Ver Candidatura</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr v-for="candidate in candidatesfromoffer">
+						<td>@{{candidate.id}}</td>
+						<td>@{{candidate.nombre}}</td>
+						<td>@{{candidate.apellido1}} @{{candidate.apellido2}}</td>
+						<td><button>
+						<i class="fa fa-users fa-1x" aria-hidden="true" @click="viewcandidate(candidate)"></i>
+						</button>
+						</td>
+						<td><button>
+						<i class="fa fa-users fa-1x" aria-hidden="true" @click="$('#viewCandidacy').modal('show');"></i>
+						</button>
+						</td>
+					</tbody>
+				</table>
 				</div>
 				<div v-else>
 				<h3>Esta oferta aún no dispone de candidatos.</h3>
