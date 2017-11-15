@@ -238,6 +238,7 @@ var app = new Vue({
 				this.getCountActive();
 	
 			})*/
+			me = this;
 			swal({
 				title: 'Are you sure?',
 				text: "It will be deleted permanently!",
@@ -263,6 +264,10 @@ var app = new Vue({
 					 })
 					 .done(function(response){
 						 swal('Deleted!', response.message, response.status);
+						 me.getCountActive();
+						 me.getOffer();
+						 $('#edit').modal('hide');
+
 						
 					 })
 					 .fail(function(){
@@ -351,7 +356,7 @@ var app = new Vue({
 		generateOfferPDF: function (id) {
 			console.log('generar PDF del ID ////  ' + id);
 		},
-		getcandidatesall: function(){
+		getcandidatesall (){
 			let configAxios = {
 				url:'candidate',
 				method:'get',
@@ -371,6 +376,8 @@ var app = new Vue({
 		uploadCV: function (e) {
 			e.preventDefault();
 			var formData = new FormData($('#uploadcvform')[0]);
+			me = this;
+			console.log(me);
 			$.ajax({
 				url: '/uploadCV',
 				type: 'POST',
@@ -387,7 +394,8 @@ var app = new Vue({
 						'Pulsa el botón para cerrar esta ventana!',
 						'success'
 					)
-					this.getcandidatesall();
+					console.log(me);
+					me.getcandidatesall();
 				},
 				error: function (result) {
 					swal(
