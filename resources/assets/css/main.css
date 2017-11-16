@@ -16,3 +16,7 @@
     max-height: calc(100vh - 210px);
     overflow-x:hidden; overflow-y:scroll;
 }
+
+[v-cloak]{
+  display: none;
+}

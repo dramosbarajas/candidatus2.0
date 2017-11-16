@@ -1,5 +1,5 @@
 @extends('app') @section('content')
-<div id="app" class="row">
+<div id="app" class="row" v-cloak>
     <div class="col-sm-12">
         <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#createCandidate">
             <i class="fa fa-plus-circle fa-1x" aria-hidden="true"></i>

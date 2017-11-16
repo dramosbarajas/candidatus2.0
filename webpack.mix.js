@@ -17,4 +17,5 @@ mix.scripts([
 	'resources/assets/css/toastr.css',
 	'resources/assets/css/main.css',
 	'resources/assets/css/sweetalert2.min.css',
+	'resources/assets/css/spinkit.css',
 	], 'public/css/app.css');

@@ -24517,6 +24517,13 @@ var app = new Vue({
 			}
 			axios.request(configAxios).then(response => {
 				this.ofertas = response.data
+			}).catch(error => {
+				this.errors = error.response.data
+				swal(
+					'Oops...',
+					'Actualmente hay un problema de red y no podemos procesar su solicitud',
+					'error'
+				)
 			});
 
 		},
@@ -24934,27 +24941,6 @@ var app = new Vue({
 				axios.get(url).then(response => {
 					this.offerscandidacy = response.data;
 				});
-
-				swal({
-					title: 'CARGANDO',
-					text: '',
-					timer: 2000,
-					allowOutsideClick: false,
-					allowEscapeKey: false,
-					allowEnterKey: false,
-					onOpen: function () {
-						swal.showLoading()
-					}
-				}).then(
-					function () {},
-					// handling the promise rejection
-					function (dismiss) {
-						if (dismiss === 'timer') {
-							console.log('I was closed by the timer')
-						}
-					}
-				)
-
 			};
 
 

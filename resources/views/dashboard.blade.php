@@ -1,6 +1,6 @@
 @extends('app') 
 @section('content')
-<div id="app" class="row">
+<div id="app" class="row" v-cloak>
     <div class="col-sm-12">
         <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#create">
         <i class="fa fa-plus-circle fa-1x" aria-hidden="true"></i>
@@ -15,7 +15,18 @@
             <button type="button" class="btn btn-danger">Cerradas <span class="badge">@{{countOffers.closed}}</span></button>
             </div>
             <hr>
-        <table class="table table-hover table-striped">
+            <div class="sk-cube-grid" v-show="ofertas == 0">
+                <div class="sk-cube sk-cube1"></div>
+                <div class="sk-cube sk-cube2"></div>
+                <div class="sk-cube sk-cube3"></div>
+                <div class="sk-cube sk-cube4"></div>
+                <div class="sk-cube sk-cube5"></div>
+                <div class="sk-cube sk-cube6"></div>
+                <div class="sk-cube sk-cube7"></div>
+                <div class="sk-cube sk-cube8"></div>
+                <div class="sk-cube sk-cube9"></div>
+            </div>
+        <table class="table table-hover table-striped" v-show="ofertas != 0">
             <thead>
                 <tr>
                     <th>Candidatura</th>
