@@ -75,7 +75,7 @@
         <a class="navbar-brand" href="#">Candidatus 2.0</a>
       </div>
       <ul class="nav navbar-nav">
-        <li><a class="acti"href="/">Ofertas</a></li>
+        <li><a class="active"href="/ofertas">Ofertas</a></li>
         <li><a href="/candidatos">Candidatos</a></li>
         <li><a href="/candidaturas">Candidaturas</a></li>
       </ul>

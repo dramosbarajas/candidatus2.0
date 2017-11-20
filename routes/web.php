@@ -13,10 +13,7 @@
 
 
 Route::group(['middleware'=>['auth:api']], function(){
-    Route::get('test', function () {
-        $user = \Auth::user();
-        return $user;
-    });
+  
     Route::resource('offer','offerController')->except(['show','create','edit']);
     Route::resource('candidate','candidateController');
     Route::resource('candidacy','candidacyController');
@@ -42,10 +39,10 @@ Route::group(['middleware'=>['auth:api']], function(){
 
 Route::group(['middleware'=>'web'], function(){
     Route::auth();
-    Route::get('/home','HomeController@index');   
-    Route::get('/', function () {
+    //Route::get('/home','HomeController@index');   
+    /*Route::get('/', function () {
         return view('auth/login');
-    });
+    });*/
 
     
     Route::get('/ofertas', function () {

@@ -1,5 +1,5 @@
 <div class="modal fade" id="show">
-	<div class="modal-dialog">
+	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal">
@@ -78,34 +78,35 @@
 					<P v-else >@{{showOffer.vacante}} Vacantes</P>
 
 				</span>
-			<div v-show="flagshowcandidates != 0" class="container">
-				<div v-if="candidatesfromoffer != 0" class="container">
-				<h3>Candidatos en esta oferta</h3>
-				<table class="table table-hover table-striped" style="width:150px">
-					<thead>
-						<tr>
-						<th>ID</th>
-						<th>Nombre</th>
-						<th>Apellidos</th>
-						<th>Ver Candidato</th>
-						<th>Ver Candidatura</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr v-for="candidate in candidatesfromoffer">
-						<td>@{{candidate.id}}</td>
-						<td>@{{candidate.nombre}}</td>
-						<td>@{{candidate.apellido1}} @{{candidate.apellido2}}</td>
-						<td><button>
-						<i class="fa fa-users fa-1x" aria-hidden="true" @click="viewcandidate(candidate)"></i>
+			<div v-show="flagshowcandidates != 0" class="container-fluid">
+	
+                        
+                    
+				 <div v-if="candidatesfromoffer != 0" class="container">
+					<h3>Candidatos en esta oferta</h3>
+					<div class="card" v-for="candidate in candidatesfromoffer" style="border:1px solid black;width:70rem">
+						<div class="card-header" style="background:darkgray">
+								<div>
+								<img v-if="candidate.genero == 'Hombre'" src="{{ asset('img/008-man-2.png') }}"  style="width: 4rem;" alt="Card image cap">
+								<img v-else src="{{ asset('img/007-girl.png') }}" alt="Card image cap" style="width: 4rem;">
+								<h3 class="card-title">@{{candidate.nombre}} @{{candidate.apellido1}} @{{candidate.apellido2}}</h3>	
+								</div>
+						</div>
+						<div class="card-body">
+							<h5 class="card-title">@{{candidate.tipo_id}} - @{{candidate.id}}</h5>
+							<h5>Estado Candidatura: <span>@{{candidate.pivot.estado}}</span></h5>
+							<h5>Entrevista:<span v-show="candidate.pivot.entrevista == 1"> SI || Fecha @{{ candidate.pivot.fecha_entrevista | moment}}</span>
+								<span v-show="candidate.pivot.entrevista == 0"> NO</span></h5>
+							<h5>Observaciones: <span>@{{candidate.pivot.observaciones}}</span></h5>
+							<button @click="viewcandidate(candidate,'back')">
+						<i class="fa fa-users fa-1x" aria-hidden="true" ></i> Info Candidato
 						</button>
-						</td>
-						<td><button>
-						<i class="fa fa-users fa-1x" aria-hidden="true" @click="$('#viewCandidacy').modal('show');"></i>
+
+						<button>
+						<i class="fa fa-users fa-1x" aria-hidden="true" @click=""></i> Info Candidatura
 						</button>
-						</td>
-					</tbody>
-				</table>
+						</div>
+					</div>
 				</div>
 				<div v-else>
 				<h3>Esta oferta aún no dispone de candidatos.</h3>

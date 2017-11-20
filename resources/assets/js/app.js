@@ -77,6 +77,7 @@ if(window.location.href != "http://127.0.0.1:8000/"){
 				'cv': '',
 				'cvfile': '',
 				'notas': '',
+				'back':'',
 				
 			},
 			countries: '',
@@ -102,6 +103,7 @@ if(window.location.href != "http://127.0.0.1:8000/"){
 			flagshowcandidates:0,
 			fnow:'',
 			candidatesall:'',
+			viewemail:0,
 	
 	
 		},
@@ -123,12 +125,9 @@ if(window.location.href != "http://127.0.0.1:8000/"){
 			{
 				let url="/offer";
 				axios.get(url,{
-					params:{
-						'api_token':document.querySelector('meta[name="api_token"]').getAttribute('content'),						
-					},
 					headers:{
 						'X-CSRF-TOKEN':document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-					
+						"authorization": "Bearer "+ document.querySelector('meta[name="api_token"]').getAttribute('content'),									
 					}
 				}).then(response => {
 					this.ofertas = response.data
@@ -145,11 +144,10 @@ if(window.location.href != "http://127.0.0.1:8000/"){
 			getCountActive: function () {
 				let url = '/countOffers';
 				axios.get(url,{
-					params:{
-						'api_token':document.querySelector('meta[name="api_token"]').getAttribute('content'),						
-					},
 					headers:{
 						'X-CSRF-TOKEN':document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+						"authorization": "Bearer "+ document.querySelector('meta[name="api_token"]').getAttribute('content'),
+						
 					
 					}
 				}).then(response => {
@@ -360,7 +358,7 @@ if(window.location.href != "http://127.0.0.1:8000/"){
 					reponseType:'json',
 					data:{},
 					headers:{
-						'X-CSRF-TOKEN':document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+						"authorization": "Bearer "+ document.querySelector('meta[name="api_token"]').getAttribute('content'),
 						'Content-Type': 'application/json'
 					}
 				}
@@ -374,7 +372,6 @@ if(window.location.href != "http://127.0.0.1:8000/"){
 				e.preventDefault();
 				var formData = new FormData($('#uploadcvform')[0]);
 				me = this;
-				console.log(me);
 				$.ajax({
 					url: '/uploadCV',
 					type: 'POST',
@@ -383,7 +380,7 @@ if(window.location.href != "http://127.0.0.1:8000/"){
 					processData: false,
 					headers:{
 						'X-CSRF-TOKEN':document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-						
+						"authorization": "Bearer "+ document.querySelector('meta[name="api_token"]').getAttribute('content'),
 					},
 					success: function (result) {
 						swal(
@@ -391,7 +388,6 @@ if(window.location.href != "http://127.0.0.1:8000/"){
 							'Pulsa el botón para cerrar esta ventana!',
 							'success'
 						)
-						console.log(me);
 						me.getcandidatesall();
 					},
 					error: function (result) {
@@ -406,7 +402,13 @@ if(window.location.href != "http://127.0.0.1:8000/"){
 			checkidentity: function () {
 				var url = "/checkidentity/" + this.createCandidate.id;
 				if (this.createCandidate.id != '') {
-					axios.get(url).then(response => {
+					axios.get(url,{
+						headers: {
+							"authorization": "Bearer "+ document.querySelector('meta[name="api_token"]').getAttribute('content'),
+							'X-CSRF-TOKEN':document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+						  },
+						  
+					}).then(response => {
 						if (response.data != 0) {
 							swal(
 								'Oops...',
@@ -419,24 +421,29 @@ if(window.location.href != "http://127.0.0.1:8000/"){
 				};
 			},
 			createcandidate: function () {
-				var url = 'candidate';
-				console.log(url);
-				console.log("llamada desde el formulario")
-				axios.post(url, {
-					tipo_id: this.createCandidate.tipo_id,
-					id: this.createCandidate.id,
-					fecha_nac: this.createCandidate.fecha_nac,
-					genero: this.createCandidate.genero,
-					nombre: this.createCandidate.nombre,
-					apellido1: this.createCandidate.apellido1,
-					apellido2: this.createCandidate.apellido2,
-					email: this.createCandidate.email,
-					tel: this.createCandidate.tel,
-					nacionalidad: this.createCandidate.nacionalidad,
-					provincia: this.createCandidate.provincia,
-					poblacion: this.createCandidate.poblacion,
-					notas: this.createCandidate.notas,
-				}).then(response => {
+				let configAxios = {
+					url:'candidate',
+					method:'POST',
+					reponseType:'json',
+					data:{tipo_id: this.createCandidate.tipo_id,
+						id: this.createCandidate.id,
+						fecha_nac: this.createCandidate.fecha_nac,
+						genero: this.createCandidate.genero,
+						nombre: this.createCandidate.nombre,
+						apellido1: this.createCandidate.apellido1,
+						apellido2: this.createCandidate.apellido2,
+						email: this.createCandidate.email,
+						tel: this.createCandidate.tel,
+						nacionalidad: this.createCandidate.nacionalidad,
+						provincia: this.createCandidate.provincia,
+						poblacion: this.createCandidate.poblacion,
+						notas: this.createCandidate.notas,},
+						headers: {
+							"authorization": "Bearer "+ document.querySelector('meta[name="api_token"]').getAttribute('content'),
+							'X-CSRF-TOKEN':document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+						  },
+				}
+				axios.request(configAxios).then(response => {
 					this.createCandidate.tipo_id = '';
 					this.createCandidate.id = '';
 					this.createCandidate.fecha_nac = '';
@@ -475,10 +482,10 @@ if(window.location.href != "http://127.0.0.1:8000/"){
 					data:{
 						id: this.busquedacandidato.id
 					},
-					headers:{
+					headers: {
+						"authorization": "Bearer "+ document.querySelector('meta[name="api_token"]').getAttribute('content'),
 						'X-CSRF-TOKEN':document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-						'Content-Type': 'application/json'
-					}
+					  },
 				}
 				axios.request(configAxios).then(response => {
 					if(response.data != 0 ){
@@ -494,32 +501,44 @@ if(window.location.href != "http://127.0.0.1:8000/"){
 	
 			},
 			getcountries: function () {
-				var url = 'countries/?api_token='+document.querySelector('meta[name="api_token"]').getAttribute('content') ;
-				axios.get(url).then(response => {
+				var url = 'countries';
+				axios.get(url,{
+					headers: {
+						"authorization": "Bearer "+ document.querySelector('meta[name="api_token"]').getAttribute('content'),
+						'X-CSRF-TOKEN':document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+					  },
+				}).then(response => {
 					this.countries = response.data
 				});
 			},
 			getprovinces: function () {
-				var url = 'provinces/?api_token='+document.querySelector('meta[name="api_token"]').getAttribute('content') ;
-				axios.get(url).then(response => {
+				var url = 'provinces';
+				axios.get(url,{
+					headers: {
+						"authorization": "Bearer "+ document.querySelector('meta[name="api_token"]').getAttribute('content'),
+						'X-CSRF-TOKEN':document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+					  },
+				}).then(response => {
 					this.provinces = response.data
 				});
 			},
 			gettowns: function () {
 				var url = 'provinces/'+this.createCandidate.provincia;
 				axios.get(url,{
-					params:{
-						//id:this.createCandidate.provincia,
-						api_token:document.querySelector('meta[name="api_token"]').getAttribute('content'),
-
-					},
+					headers: {
+						"authorization": "Bearer "+ document.querySelector('meta[name="api_token"]').getAttribute('content'),
+						'X-CSRF-TOKEN':document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+					  },
 				}).then(response => {
 					this.towns = response.data
 				});
 			},
-			viewcandidate: function (candidato) {
-				console.log(candidato);
-				console.log(candidato.nombre);
+			viewcandidate: function (candidato, opt) {
+				if(opt == 'back'){
+					this.viewCandidate.back = 1;
+				}else{
+					this.viewCandidate.back = 0;
+				}
 				this.viewCandidate.tipo_id = candidato.tipo_id;
 				this.viewCandidate.id = candidato.id;
 				this.viewCandidate.fecha_nac = moment(candidato.fecha_nac).format('DD/MM/YYYY');
@@ -544,6 +563,12 @@ if(window.location.href != "http://127.0.0.1:8000/"){
 				var nacimiento = borndate;
 				return anios = hoy.diff(nacimiento, 'years');
 			},
+
+			backviewcandidate: function () {
+				$('#viewCandidate').modal('hide');
+				$('#show').modal('show');
+				this.viewCandidate.back = '';
+			},
 	
 			showmodalcandidacy: function () {
 				$('#createCandidacy').modal('show');
@@ -551,7 +576,12 @@ if(window.location.href != "http://127.0.0.1:8000/"){
 			getofferscandidacy: function () {
 				let url = "/oget";
 				if (this.offerscandidacy == 0) {
-					axios.get(url).then(response => {
+					axios.get(url,{
+						headers: {
+							"authorization": "Bearer "+ document.querySelector('meta[name="api_token"]').getAttribute('content'),
+							'X-CSRF-TOKEN':document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+						  },
+					}).then(response => {
 						this.offerscandidacy = response.data;
 					});
 				};
@@ -561,18 +591,32 @@ if(window.location.href != "http://127.0.0.1:8000/"){
 			getcandidatescandidacy: function () {
 				let url = "/cget";
 				if (this.candidatescandidacy == 0) {
-					axios.get(url).then(response => {
+					axios.get(url,{
+						headers: {
+							"authorization": "Bearer "+ document.querySelector('meta[name="api_token"]').getAttribute('content'),
+							'X-CSRF-TOKEN':document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+						  },
+					}).then(response => {
 						this.candidatescandidacy = response.data;
 					});
 				}
 			},
 			checkvalidapar: function () {
-				let url = "/chkvpar";
-				if (this.flagcheckpar === 0 && this.candidacy.offerid != '' && this.candidacy.candidateid != '') {
-					axios.post(url, {
+				let configAxios = {
+					url:'chkvpar',
+					method:'post',
+					reponseType:'json',
+					data:{
 						offer_id: this.candidacy.offerid,
 						candidate_id: this.candidacy.candidateid,
-					}).then(response => {
+					},
+					headers: {
+						"authorization": "Bearer "+ document.querySelector('meta[name="api_token"]').getAttribute('content'),
+						'X-CSRF-TOKEN':document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+					  },
+				}
+				if (this.flagcheckpar === 0 && this.candidacy.offerid != '' && this.candidacy.candidateid != '') {
+					axios.request(configAxios).then(response => {
 						if (response.data != 0) {
 							swal(
 								'Oops...',
@@ -589,16 +633,24 @@ if(window.location.href != "http://127.0.0.1:8000/"){
 				}
 			},
 			createcandidacy: function () {
-				console.log("llamada axios");
-				let url = "candidacy";
-				axios.post(url, {
-					offer_id: this.candidacy.offerid,
-					candidate_id: this.candidacy.candidateid,
-					estado: this.candidacy.estado,
-					entrevista: this.candidacy.entrevista,
-					fecha_entrevista: this.candidacy.fecha_entrevista,
-					observaciones: this.candidacy.observaciones,
-				}).then(response => {
+				let configAxios = {
+					url:'candidacy',
+					method:'post',
+					reponseType:'json',
+					data:{
+						offer_id: this.candidacy.offerid,
+						candidate_id: this.candidacy.candidateid,
+						estado: this.candidacy.estado,
+						entrevista: this.candidacy.entrevista,
+						fecha_entrevista: this.candidacy.fecha_entrevista,
+						observaciones: this.candidacy.observaciones,
+					},
+					headers: {
+						"authorization": "Bearer "+ document.querySelector('meta[name="api_token"]').getAttribute('content'),
+						'X-CSRF-TOKEN':document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+					  },
+				}
+				axios.request(configAxios).then(response => {
 					$('#createCandidacy').modal('hide');
 					this.candidacy.offerid = '';
 					this.candidacy.candidateid = '';
@@ -606,6 +658,10 @@ if(window.location.href != "http://127.0.0.1:8000/"){
 					this.candidacy.entrevista = '';
 					this.candidacy.fecha_entrevista = '';
 					this.candidacy.observaciones = '';
+					this.offerscandidacy = '';
+					this.candidatescandidacy = '';
+					$('#candidatos').prop("disabled", false);
+					$('#ofertas').prop("disabled", false);
 					swal(
 						'Nuevo candidatura creada con éxito!',
 						'Pulsa el botón para cerrar esta ventana!',
@@ -627,8 +683,14 @@ if(window.location.href != "http://127.0.0.1:8000/"){
 						this.candidatesfromoffer = response.data;
 					});
 				}
-			}
+			},
+			sendemail: function(){
+				$('#viewCandidate').modal('hide');
+				$('#sendemail').modal('show');
+			},
+
 		},
+			
 	
 	
 	})

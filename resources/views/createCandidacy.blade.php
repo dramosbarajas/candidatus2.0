@@ -20,7 +20,7 @@
                 <h4>Por favor, presione los botones para cargar los datos.</h4>
                 <div class="col-sm-12">
                   <br>
-                  <button type="button" class="btn btn-info" @click="getofferscandidacy">
+                  <button v-show="offerscandidacy == 0" type="button" class="btn btn-info" @click="getofferscandidacy">
                     <i class="fa fa-refresh fa-1x" aria-hidden="true"></i>
                     Cargar Ofertas
                   </button>
@@ -47,7 +47,7 @@
                 </div>
                 <div class="col-sm-12" v-show="offerscandidacy != 0">
                   <br>
-                  <button type="button" class="btn btn-info" @click="getcandidatescandidacy">
+                  <button v-show="candidatescandidacy == 0" type="button" class="btn btn-info" @click="getcandidatescandidacy">
                     <i class="fa fa-refresh fa-1x" aria-hidden="true"></i>
                     Cargar Candidatos
                   </button>

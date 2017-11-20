@@ -27,10 +27,17 @@
 					<div class="container">
 						<h5>
 							<strong class="text-uppercase">Correo Electrónico:</strong> @{{viewCandidate.email}}</h5>
-						<a type="button" class="btn btn-outline-primary">
+						<a type="button" class="btn btn-outline-primary" @click="viewemail = 1">
 							<span>Enviar Correo Electrónico </span>
 							<i class="fa fa-envelope-o fa-2x" aria-hidden="true"></i>
 						</a>
+						<div v-show="viewemail == 1">
+							<label for="emailcandidato">Destinatario</label>
+               				 <h4>@{{viewCandidate.nombre}} @{{viewCandidate.apellido1}} @{{viewCandidate.apellido2}}</h4>
+							<textarea name="emailtext" id="emailtext" cols="30" rows="10"></textarea>
+               				 <button type="submit">Enviar Correo</button>
+							<button @click="viewemail = 0">Ocultar</button>
+						</div>
 						<h5>
 							<strong class="text-uppercase">Teléfono:</strong> @{{viewCandidate.tel}}</h5>
 						<a type="button" class="btn btn-outline-primary">
@@ -83,6 +90,9 @@
 				</div>
 			</div>
 			<div class="modal-footer">
+			<a v-show="viewCandidate.back == 1" href="#" type="button" class="btn btn-outline-danger pull-left" @click="backviewcandidate">
+                            <i class="fa fa-arrow-circle-left fa-2x" aria-hidden="true"></i>
+                            </i> Atras</a>
 			<a href="#" type="button" class="btn btn-outline-danger pull-left" v-on:click.prevent="deleteOffer(editOferta.id)">
                             <i class="fa fa-trash-o fa-2x" aria-hidden="true"></i>
                             </i> Eliminar</a>
