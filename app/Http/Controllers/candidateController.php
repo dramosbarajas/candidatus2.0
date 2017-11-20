@@ -6,7 +6,12 @@ use Illuminate\Http\Request;
 use App\Candidate;
 class candidateController extends Controller
 {
-    
+ 
+    public function __construct()
+    {
+        $this->middleware('auth:api');
+    }
+
     public function index(){
         //return  Candidate::get();
         return Candidate::with('offers')->get();

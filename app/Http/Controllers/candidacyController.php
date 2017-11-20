@@ -9,6 +9,12 @@ use App\Candidate_Offer;
 
 class candidacyController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth:api');
+    }
+
     public function oget () {
         return response (Offer::where('estado',1)->get(['id','titulo']), 200);
     }

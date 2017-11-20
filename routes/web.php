@@ -11,32 +11,52 @@
 |
 */
 
-Route::get('/', function () {
-    return view('dashboard');
+
+Route::group(['middleware'=>['auth:api']], function(){
+    Route::get('test', function () {
+        $user = \Auth::user();
+        return $user;
+    });
+    Route::resource('offer','offerController')->except(['show','create','edit']);
+    Route::resource('candidate','candidateController');
+    Route::resource('candidacy','candidacyController');
+    
+    Route::get('/countOffers', 'offerController@countOffers');
+    Route::get('/pdfview',array('as'=>'pdfview','uses'=>'pdf@generateOfferPDF'));
+    
+    Route::get('/countries','otherController@countries');
+    Route::get('/provinces','otherController@provinces');
+    Route::get('/provinces/{id}','otherController@towns');
+    Route::get('/checkidentity/{id}','candidateController@checkidentity');
+    Route::post('/findcandidate','candidateController@findcandidate');
+    Route::post('/uploadCV','candidateController@uploadCV')->name('uploadCV');
+    Route::get('/oget','candidacyController@oget');
+    Route::get('/cget','candidacyController@cget');
+    Route::get('/cfromo','offerController@candidatesfromoffer');
+    Route::post('/chkvpar','candidacyController@checkvalidapar');
+
 });
 
-Route::get('/candidatos', function () {
-    return view('candidatos');
+
+
+
+Route::group(['middleware'=>'web'], function(){
+    Route::auth();
+    Route::get('/home','HomeController@index');   
+    Route::get('/', function () {
+        return view('auth/login');
+    });
+
+    
+    Route::get('/ofertas', function () {
+        return view('dashboard');
+    });
+
+    Route::get('/candidatos', function () {
+        return view('candidatos');
+    });
+    Route::get('/candidaturas', function () {
+        return view('candidaturas');
+    });
+
 });
-Route::get('/candidaturas', function () {
-    return view('candidaturas');
-});
-
-
-Route::resource('offer','offerController')->except(['show','create','edit']);
-Route::resource('candidate','candidateController');
-Route::resource('candidacy','candidacyController');
-
-Route::get('/countOffers', 'offerController@countOffers');
-Route::get('/pdfview',array('as'=>'pdfview','uses'=>'pdf@generateOfferPDF'));
-
-Route::get('/countries','otherController@countries');
-Route::get('/provinces','otherController@provinces');
-Route::get('/provinces/{id}','otherController@towns');
-Route::get('/checkidentity/{id}','candidateController@checkidentity');
-Route::post('/findcandidate','candidateController@findcandidate');
-Route::post('/uploadCV','candidateController@uploadCV')->name('uploadCV');
-Route::get('/oget','candidacyController@oget');
-Route::get('/cget','candidacyController@cget');
-Route::get('/cfromo','offerController@candidatesfromoffer');
-Route::post('/chkvpar','candidacyController@checkvalidapar');
