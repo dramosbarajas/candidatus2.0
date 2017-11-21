@@ -41,6 +41,8 @@ Route::group(['middleware'=>['auth:api']], function(){
     //Rutas del controlador de candidaturas
         Route::resource('candidacy','candidacyController')->except(['show','create','edit']);
         Route::post('/chkvpar','candidacyController@checkvalidapar');
+        Route::get('/oget','candidacyController@oget');
+        Route::get('/cget','candidacyController@cget');
 
     //Rutas del controlador de otherController
         Route::get('/countries','otherController@countries');
@@ -51,6 +53,7 @@ Route::group(['middleware'=>['auth:api']], function(){
         Route::get('/pdfview',array('as'=>'pdfview','uses'=>'pdf@generateOfferPDF'));
     
     //Rutas del controlador de mailController
+        Route::post('sendemail', 'mailController@send_email');
     //Rutas del controlador de smsController
     
 });

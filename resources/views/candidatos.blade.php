@@ -66,7 +66,7 @@
                     </div>
                 </div>
         </div>
-        @include('viewCandidate') @include('createCandidate') @include('show')  @include('email')
+        @include('viewCandidate') @include('createCandidate') @include('show')
 
     </div>
 </div>

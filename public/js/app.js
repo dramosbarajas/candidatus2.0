@@ -25068,11 +25068,37 @@ if(window.location.href != "http://127.0.0.1:8000/"){
 				}
 			},
 			sendemail: function(){
-				swal(
-					'Nuevo candidatura creada con éxito!',
-					'Pulsa el botón para cerrar esta ventana!',
-					'success',
-				)
+				let configAxios = {
+					url:'sendemail',
+					method:'post',
+					reponseType:'json',
+					data:{
+						nombre: this.viewCandidate.nombre,
+						apellido1: this.viewCandidate.apellido1,
+						apellido2: this.viewCandidate.apellido2,
+						email: this.viewCandidate.email,
+						contenido: "Datos del mensaje",
+					},
+					headers: {
+						"authorization": "Bearer "+ document.querySelector('meta[name="api_token"]').getAttribute('content'),
+						'X-CSRF-TOKEN':document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+					  },
+				}
+				axios.request(configAxios).then(response => {
+			
+					swal(
+						'Correo Electrónico enviado con éxito!',
+						'Pulsa el botón para cerrar esta ventana!',
+						'success',
+					)
+				}).catch(error => {
+					this.errors = error.response.data
+					swal(
+						'Oops...',
+						'Algo ha salido mal, por favor vuelve a intentarlo!',
+						'error'
+					)
+				});
 			},
 
 		},

@@ -62,7 +62,6 @@
             </tbody>
         </table>
         @include('show')
-        @include('email')
         @include('viewCandidate')
         @include('viewCandidacy')
         @include('edit')
