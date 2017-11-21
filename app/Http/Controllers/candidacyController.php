@@ -24,20 +24,20 @@ class candidacyController extends Controller
         
      }
 
+     public function checkvalidapar (Request $request){
+         $result = Candidate_Offer::where(['offer_id'=> $request->offer_id , 'candidate_id' => $request->candidate_id])->get();
+         $result = $result->count();     
+         return response($result,200);
+     }
     public function store (Request $request){
         $result = Candidate_Offer::where(['offer_id'=> $request->offer_id , 'candidate_id' => $request->candidate_id])->get();
         $result = $result->count();     
         if($result === 0){
             Candidate_Offer::create($request->all());
-            return response(500);
+            return response('Elemento Creado',200);
         }else{
             return response(500);
         }
-    }
-    public function checkvalidapar (Request $request){
-        $result = Candidate_Offer::where(['offer_id'=> $request->offer_id , 'candidate_id' => $request->candidate_id])->get();
-        $result = $result->count();     
-        return response($result,200);
     }
 
 }

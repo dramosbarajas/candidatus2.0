@@ -25068,8 +25068,11 @@ if(window.location.href != "http://127.0.0.1:8000/"){
 				}
 			},
 			sendemail: function(){
-				$('#viewCandidate').modal('hide');
-				$('#sendemail').modal('show');
+				swal(
+					'Nuevo candidatura creada con éxito!',
+					'Pulsa el botón para cerrar esta ventana!',
+					'success',
+				)
 			},
 
 		},

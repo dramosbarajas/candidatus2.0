@@ -35,7 +35,7 @@
 							<label for="emailcandidato">Destinatario</label>
                				 <h4>@{{viewCandidate.nombre}} @{{viewCandidate.apellido1}} @{{viewCandidate.apellido2}}</h4>
 							<textarea name="emailtext" id="emailtext" cols="30" rows="10"></textarea>
-               				 <button type="submit">Enviar Correo</button>
+               				 <button type="submit" @click="sendemail">Enviar Correo</button>
 							<button @click="viewemail = 0">Ocultar</button>
 						</div>
 						<h5>
@@ -47,8 +47,6 @@
 					</div>
 				</div>
 				<hr>
-
-
 				<div>
 					<h3>Curriculum Vitae</h3>
 					<div class="container">
@@ -56,7 +54,7 @@
 							<h4>Por favor Adjunte el Curriculum Vitae a la ficha del candidato.</h4>
 							<form id="uploadcvform" class="form-inline" method="POST" enctype="multipart/form-data">
 								<label for="cv">Presione y seleccione un archivo.</label>
-								<input type="file" name="cv" id="cv" />
+								<input type="file" name="cv" id="cv"/>
 								<input type="hidden" name="id" :value="viewCandidate.id" />
 								<br>
 								<button type="submit" class="btn btn-success" @click="uploadCV">Upload CV</button>
@@ -67,6 +65,7 @@
 							<a type="button" :href="viewCandidate.cv" target="_blank" class="btn btn-outline-primary">Visualizar Curriculum Vitae
 								<i class="fa fa-file-text fa-2x" aria-hidden="true"></i>
 							</a>
+							<a href="#"@click="viewCandidate.cv = null"><p>Pulsa aqui para subir de nuevo el fichero.</p></a>
 						</div>
 					</div>
 				</div>

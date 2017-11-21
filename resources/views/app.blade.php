@@ -26,15 +26,20 @@
                     </button>
 
                     <!-- Branding Image -->
-                    <a class="navbar-brand" href="{{ url('/') }}">
-                        {{ config('app.name', 'Laravel') }}
-                    </a>
+                   
                 </div>
 
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
+                   
+  
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="#">Candidatus 2.0</a>
+                    </div>
                     <ul class="nav navbar-nav">
-                        &nbsp;
+                        <li><a class="active"href="/ofertas">Ofertas</a></li>
+                        <li><a href="/candidatos">Candidatos</a></li>
+                        <li><a href="/candidaturas">Candidaturas</a></li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -68,19 +73,6 @@
                 </div>
             </div>
         </nav>
-
-    <nav class="navbar navbar-default">
-    <div class="container-fluid">
-      <div class="navbar-header">
-        <a class="navbar-brand" href="#">Candidatus 2.0</a>
-      </div>
-      <ul class="nav navbar-nav">
-        <li><a class="active"href="/ofertas">Ofertas</a></li>
-        <li><a href="/candidatos">Candidatos</a></li>
-        <li><a href="/candidaturas">Candidaturas</a></li>
-      </ul>
-    </div>
-  </nav>
         <div class="container">
             
             @yield('content')

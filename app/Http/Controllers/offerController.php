@@ -17,7 +17,6 @@ class offerController extends Controller
     public function index()
     {
         return Offer::with('candidates')->orderBy('estado', 'DESC')->get();
-       
     }
 
     public function countOffers()
@@ -35,8 +34,7 @@ class offerController extends Controller
     }
 
     public function update(Request $request, $id)
-    {
-                
+    {       
                     Offer::find($id)->update($request->all());
                     return response()->json([], 200, []);   
     }

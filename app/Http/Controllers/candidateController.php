@@ -12,13 +12,11 @@ class candidateController extends Controller
         $this->middleware('auth:api');
     }
 
-    public function index(){
-        //return  Candidate::get();
+    public function index(){  
         return Candidate::with('offers')->get();
     }
     public function checkidentity($id)
-    {
-        //if (!$request->ajax()) return redirect('/');   
+    {  
         return response (Candidate::where('id', $id)->count(), 200);
     }
 
@@ -34,8 +32,12 @@ class candidateController extends Controller
 
     public function store(\App\Http\Requests\CreateCandidateRequest $request)
     {
-        Candidate::create($request->all());
-        return 200;
+        if ($request->isJson()) {
+            Candidate::create($request->all());
+            return response()->json($request->all(),200);
+        } else {
+            return response()->json(['error' => 'Unauthorized'], 401, []);
+        }
     }
 
     public function uploadCV(Request $request)
@@ -46,20 +48,14 @@ class candidateController extends Controller
         return 200;      
     }
 
-
-    public function show($id)
+    public function destroy(Request $request,$id)
     {
-       
-    }
-
-    public function update(Request $request, $id)
-    {
-        
-        
-    }
-
-    public function destroy($id)
-    {
-        
+        try {
+            $candidate = Offer::findOrFail($id);
+            $candidate->delete();
+            return response()->json($offer, 200);
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['error' => 'No content'], 406);
+        }
     }
 }
