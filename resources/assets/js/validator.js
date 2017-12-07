@@ -230,7 +230,7 @@
     Validator.prototype.showErrors = function ($el) {
       var method = this.options.html ? 'html' : 'text'
       var errors = $el.data('bs.validator.errors')
-      var $group = $el.closest('.form-group')
+      var $group = $el.closest('.grupo-formulario')
       var $block = $group.find('.help-block.with-errors')
       var $feedback = $group.find('.form-control-feedback')
   
@@ -251,7 +251,7 @@
     }
   
     Validator.prototype.clearErrors = function ($el) {
-      var $group = $el.closest('.form-group')
+      var $group = $el.closest('.grupo-formulario')
       var $block = $group.find('.help-block.with-errors')
       var $feedback = $group.find('.form-control-feedback')
   

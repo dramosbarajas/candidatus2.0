@@ -9,7 +9,7 @@
 .fueraplazo{
   color: orange;
   font-weight: bold;
-  text-decoration: underline;
+  /*text-decoration: underline;*/
 }
 
 .modal-body {
@@ -19,4 +19,262 @@
 
 [v-cloak]{
   display: none;
+}
+
+/* Estilos David */
+/* Reset */
+@charset "UTF-8";
+abbr,address,article,aside,audio,b,blockquote,body,canvas,caption,cite,code,dd,del,details,dfn,div,dl,dt,em,fieldset,figcaption,figure,footer,form,h1,h2,h3,h4,h5,h6,header,hgroup,html,i,iframe,img,ins,kbd,label,legend,li,main,mark,menu,nav,object,ol,p,pre,q,samp,section,small,span,strong,sub,summary,sup,table,tbody,td,tfoot,th,thead,time,tr,ul,var,video {margin: 0;padding: 0;border: 0;outline: 0;font-size: 100%;vertical-align: baseline;background: 0 0}
+img {display: block}
+body {line-height: 1}
+article,aside,details,figcaption,figure,footer,header,hgroup,main,menu,nav,section {display: block}
+li,nav ul,ul {list-style: none}
+blockquote,q {quotes: none}
+blockquote:after,blockquote:before,q:after,q:before {content: '';content: none}
+a {margin: 0;padding: 0;font-size: 100%;vertical-align: baseline;background: 0 0}
+ins {background-color: #f3f3f3;color: #000;text-decoration: none}
+mark {background-color: #f3f3f3;color: #000;font-style: italic;font-weight: 700}
+del {text-decoration: line-through}
+abbr[title],dfn[title] {border-bottom: 1px dotted;cursor: help}
+table {border-collapse: collapse;border-spacing: 0}
+hr {display: block;height: 1px;border: 0;border-top: 1px solid #bbb;margin: 1em 0;padding: 0}
+input,select {vertical-align: middle}
+
+/* Generales */
+/* Iconos */
+.icono {width: 24px;height: 24px;display: inline-block;line-height: 0;}
+.icono svg {width: 100%;height: 100%;max-width: 24px;max-height: 24px;margin: 0 auto;}
+/* Botones */
+.boton {margin-bottom:8px;-webkit-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;display: inline-block;vertical-align: top;height: 40px;color: #0277bd}
+/*.boton:hover {color: #014771}*/
+.boton svg {fill: #0277bd}
+.boton .icono {display: block;float: left;margin: 8px}
+.boton .accion,.boton .cantidad {display: block;float: left;height: 40px;padding: 0 14px;font-size: 12px;font-weight: 700;line-height: 40px}
+.boton .icono+.accion {padding: 0 14px 0 0}
+.boton .accion+.icono {margin-left: -8px}
+.boton.accion-s {height: 30px}
+.boton.accion-s .accion {height: 30px;line-height: 30px}
+.boton.esquinas {border-radius: 4px}
+.boton.redondo {border-radius: 20px}
+.boton.redondo.accion-s {border-radius: 15px}
+.boton.gris {margin: 0 5px 10px 0;background-color:#f5f5f5;}
+.boton.visualizar {color:white;background-color:#337ab7}
+.boton.visualizar svg {fill: #fff}
+.boton.editar{color:white;background-color:#f0ad4e}
+.boton.editar svg{fill: #fff}
+.boton.nueva-oferta{color:white;background-color:#378bd4}
+.boton.actualizar{color:white;background-color:#337ab7}
+.boton.activa {color:#689f38}
+.boton.activa svg {fill:#689f38}
+.boton.fuera-plazo {color:#ffa500}
+.boton.fuera-plazo svg {fill:#ffa500}
+.boton.cerrada {color:#d32f2f}
+.boton.cerrada svg {fill:#d32f2f}
+.boton.crear {color:white;background-color:#337ab7}
+.boton.crear svg {fill:#fff}
+.boton.limpiar {color:white;background-color:#f0ad4e}
+.boton.limpiar svg {fill:#fff}
+.boton.pequeno .icono {width:20px;height:20px;margin-top:10px}
+.boton.pequeno .cantidad {font-weight:bold;padding-left:0;}
+.boton.hover:hover {cursor: pointer;opacity:.9}
+td .boton { margin-bottom:0 }
+/* App - Contenedor */
+/* Estilos generales */
+body {
+    background: #f7f7df url('../img/body-background.png');
+}
+a,a:hover {text-decoration: none}
+button {border: none}
+input[type="file"] {max-width:100%;}
+table {border-bottom: 2px solid #ddd;}
+table tr th {color: #333}
+.table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {vertical-align: middle;}
+.hide {display: none}
+.titulo {
+    display: block;
+    font-weight: bold;
+    margin-bottom:10px;
+}
+.modal.fade.in {overflow-y:scroll;}
+/*.modal {position:fixed}*/
+/* Contenedores */
+#app {max-width: 980px;margin: auto;}
+#contenedor {position: relative;width: 1170px;min-height:600px;margin: auto;background-color: #fff;overflow: hidden;box-shadow: 0 0 10px 2px #333;}
+
+/* Cabecera */
+.cabecera {box-sizing: border-box;position: relative;width: 100%;height: 50px;padding: 5px;background-color: #f8f8f8;border-bottom: solid 1px #ccc;display: flex;justify-content: center;align-items: center;margin-bottom: 20px;}
+.cabecera img {max-height: 25px}
+.cabecera .icono-menu {display: none;position: absolute;left: 10px;width: 40px;height: 40px}
+.cabecera .icono-menu .linea {display: block;position: relative;width: 18px;height: 2px;background-color: #888}
+.cabecera .icono-menu .linea.l1 {position: absolute;top: calc(0% + 14px);left: 11px}
+.cabecera .icono-menu .linea.l2 {position: absolute;top: calc(50% - 1px);left: 11px;opacity: 1}
+.cabecera .icono-menu .linea.l3 {position: absolute;bottom: calc(0% + 14px);left: 11px}
+.cabecera .icono-menu .linea.l1,.cabecera .icono-menu .linea.l2,.cabecera .icono-menu .linea.l3 {transition: all .35s ease-in-out}
+.cabecera .login-header {display: none;}
+.cabecera .login-header svg {fill: #888}
+.cabecera .login-header.logeado .usuario {display: block;padding: 15px;line-height: 20px;}
+.cabecera .login-header.logeado .usuario:hover {background-color: #eee;}
+#menu-navegacion:checked~.cabecera .icono-menu .linea.l1 {top: calc(50% - 1px);transform: rotate(-135deg)}
+#menu-navegacion:checked~.cabecera .icono-menu .linea.l2 {transform: scale(.2); opacity: 0}
+#menu-navegacion:checked~.cabecera .icono-menu .linea.l3 {bottom: calc(50% - 1px);transform: rotate(135deg)}
+
+/* Menus navegación */
+#menu-navegacion:checked~.menu {left: 0;}
+.menu {position: absolute;box-sizing: border-box;top: 0px;left: 0px;width: 100;height: 50px;z-index: 9}
+.menu ul {display: flex;justify-content: space-around}
+.menu ul li {flex: 1 0 auto;margin: 4px;}
+.menu ul li a {color: #369;}
+.menu ul li a .boton {font-size:14px;}
+.menu ul li a .accion {font-size:14px;}
+.logo-cabecera {flex: 0 0 auto;}
+.menu-login {position: absolute;right: 10px;}
+.menu-login ul {display: flex;}
+.menu-login ul li {padding: 0 10px;}
+.menu-login ul li a .boton {font-size:14px;}
+.menu-login ul li a .accion {font-size:14px;}
+
+/* Candidaturas */
+.contenedor-candidaturas {padding:0 15px}
+.gestion-candidaturas {position:absolute;display: flex;justify-content: flex-end;margin-bottom: 20px;}
+.gestion-candidaturas .boton {margin-left: 10px;}
+.gestion-candidaturas .boton:nth-child(1) {margin-left:0;}
+.candidaturas {display:flex;flex-wrap:wrap;justify-content:flex-end;align-items: center;border-bottom: 1px solid #d5d5d5;margin-bottom: 15px}
+.candidaturas span:first-of-type{margin-right: 5px;}
+.candidaturas span:last-of-type{margin-right: 0;}
+.fecha-oferta {font-size: 14px;font-weight: bold;color: #727272;}
+
+/* Crear candidatura */
+.contenedor-crear-candidatura {max-width:980px;margin:30px auto;}
+.contenedor-cabecera {display: flex;justify-content: space-between;align-items: center;padding: 10px 20px;border-radius: 10px 10px 0 0;background-color: #f0ad4e;}
+.contenedor-cabecera h2 {color:#fff}
+.contenedor-cabecera svg {fill:#fff}
+.contenedor-cuerpo {padding: 20px;background-color: #fff;}
+.contenedor-cuerpo label {color:#242424;font-size: 14px;padding-left:5px;margin-bottom: 2px;}
+.contenedor-pie {padding: 10px 20px;border-radius: 0 0 10px 10px;background-color: #f5f5f5;border-top:solid 1px #d2d2d2;text-align: right;}
+.controles-contenedor {clear: both;display: flex;justify-content: flex-end;padding: 0 30px;}
+.controles-contenedor button:nth-last-child(n+2) {margin-right: 10px;}
+
+/* Crear candidato */
+.gestion-candidatos { margin-bottom:20px }
+.buscador {display:flex;flex-wrap:wrap;margin-bottom:10px;}
+.buscador label { flex: 1 0 100% }
+.buscador #busqueda { flex:1 0 auto;width:auto;border-radius: 4px 0 0 4px;height:40px; }
+.buscador #enviarAltaOferta { flex: 0 0 auto;width:auto;border-radius: 0 4px 4px 0 }
+.buscador .with-errors { flex: 1 0 100% }
+.contenedor-candidatos {display: flex;flex-wrap: wrap;justify-content: space-between;justify-content: flex-start;clear: both;margin-bottom: 30px;}
+.contenedor-candidatos .titulo {flex: 0 0 100%;}
+.contenedor-candidatos .card {flex: 0 0 calc(20% - 20px);padding: 10px;background-color: #f5f5f5;border-radius: 10px;margin: 0 10px 20px 10px;}
+.contenedor-candidatos .card img {width:100%}
+.contenedor-candidatos .card .card-header h3 {margin-top:8px;}
+.contenedor-candidatos .card .card-block {margin-top: 10px;}
+.contenedor-candidatos .card .card-block.bloques {display: flex;flex-direction: column;justify-content: space-between;}
+.contenedor-candidatos .card .card-block > * {margin-bottom: 5px;}
+.contenedor-candidatos .card .card-block > span {display: block;margin: 15px auto auto auto;}
+.contenedor-candidatos.oferta .card {display:flex;flex-direction:column;}
+.contenedor-candidatos.oferta .card .card-block {flex-grow:1;font-size:14px;}
+.contenedor-candidatos.oferta .card .card-block > * {margin-bottom:10px;}
+.contenedor-candidatos.oferta .card .card-footer {margin-top:10px;}
+.contenedor-candidatos.oferta .candidato-oferta {text-transform:uppercase;font-weight: bold;}
+
+/* Formularios */
+.formulario {width:100%;padding: 0 30px;}
+.formulario-flex {display: flex;justify-content: space-between;width: 100%;min-height: 82px;padding: 0 30px;}
+.formulario-flex.texto {min-height: 0;margin-bottom: 20px;}
+.formulario-flex .grupo-formulario {flex: 0 1 30%;margin-bottom: 20px;}
+.formulario-flex.cuatro .grupo-formulario {flex: 0 1 20%;}
+.formulario-flex .grupo-formulario.ancho-completo {flex: 1 1 100%;}
+.formulario-flex .grupo-formulario.ancho-completo + .grupo-formulario {margin-left: 5%;}
+.datos-personales > * {line-height: 1.5;margin-bottom: 5px;}
+.dato-personal {text-transform: uppercase;font-size: 15px;font-weight: bold;padding-bottom: 2px;color: #5e8fa7;}
+.dato-personal + p {margin: 2px auto 10px;font-size: 15px;}
+.nombre-candidato {font-size: 18px;text-transform: uppercase;color: #424242;}
+.panel-oculto {margin-top:20px;}
+}
+
+/* Estilos responsive */
+.mobile-menos {display:none}
+
+@media (max-width: 1170px) {
+    /* Contenedores */
+    #contenedor {width: 980px;}
+}
+@media (max-width: 980px) {
+    /* Contenedores */
+    #contenedor {width: 100%;}
+    /* Cabecera */
+    .cabecera .icono-menu {display: block;}
+    .cabecera .login-header { height:40px }
+    /* Menus navegación */
+    .menu {position: absolute;top: 50px;left: -150px;height: auto;padding: 0 10px 0 5px;background-color: #fff;border-radius: 0 0 4px 0;border-right: 1px solid #ddd;border-bottom: 1px solid #ddd;box-shadow: 0 2px 4px rgba(0, 0, 0, .25);transition: all 0.5s ease-in-out;}
+    .menu ul {flex-direction: column}
+    .menu ul li {margin:5px 0}
+    .menu ul li:nth-child(-n+2) {border-bottom: dotted 1px #ddd}
+    .login-header {position:absolute;right:10px}
+    /* Candidaturas */
+    .gestion-candidaturas {position: relative;}
+    /* Crear candidatura */
+    .contenedor-crear-candidatura {margin: 10px;}
+    .contenedor-cuerpo {padding: 20px 30px;}
+    .contenedor-cuerpo label {font-size: 14px;margin-bottom:5px;}
+    .contenedor-cuerpo .input-group-addon {font-size:12px}
+    /* Crear candidato */
+    .contenedor-candidatos .card {flex: 0 0 calc(20% - 20px);}
+}
+@media (min-width: 768px) {
+    /* Contenedores */
+    .container { width: auto }
+}
+@media (max-width: 660px) {
+    /* Botones */
+    .icono.tablet-mas + .accion {padding-left:14px; !important}
+    /* Estilos generales */
+    table tr td:last-of-type {padding-left:0}
+    table td { vertical-align: middle !important}
+    .mobile-menos {display:block;height:20px}
+    .tablet-mas {display:none !important}
+    .container-fluid { padding:0;margin:0; }
+    /* Contenedores */
+    .container {padding:0;}
+    /* Cabecera */
+    .cabecera .login-header { display: block }
+    /* Menus navegación */
+    #menu-login:checked ~ .menu-login {right: 0;}
+    .menu-login {position: absolute;top: 50px;right: -125px;height: auto;padding: 0 10px 0 5px;background-color: #fff;border-radius: 0 0 4px 0;border-right: 1px solid #ddd;border-bottom: 1px solid #ddd;box-shadow: 0 2px 4px rgba(0, 0, 0, .25);transition: all 0.5s ease-in-out;z-index:9;}
+    .menu-login ul {flex-direction: column;}
+    .menu-login ul li {flex: 1 0 auto;margin:5px 0}
+    .menu-login ul li:nth-child(-n+1) {border-bottom: dotted 1px #ddd}
+    /* Candidaturas */
+    .candidaturas {justify-content:space-between}
+    .candidaturas .boton {margin-right: 0}
+    .candidaturas .titulo,.candidaturas .boton:nth-of-type(2) {flex:1 1 100%}
+    .candidaturas .boton:nth-of-type(n+3) {flex:0 1 calc(50% - 5px)}
+    .candidaturas .cantidad {float:right}
+    /* Crear candidatura */
+    .contenedor-cuerpo {padding: 20px 15px;}
+    .controles-contenedor {justify-content: space-between;flex-wrap:wrap;padding: 0;}
+    .controles-contenedor span:first-child {order: 1;}
+    /* Crear candidato */
+    .contenedor-candidatos .card {flex: 0 0 calc(50% - 20px);}
+    .contenedor-candidatos.oferta .card {flex: 0 1 100%;}
+    .contenedor-candidatos.oferta .card img {max-width:128px;}
+    .formulario {padding:0}
+    .formulario-flex {flex-direction: column;padding: 0;}
+}
+@media (max-width: 374px){
+    /* Botones */
+    .boton .icono.mini {display: none}
+    /* Estilos generales */
+    table {margin:0 -15px;width:calc(100% + 30px) !important;max-width:374px !important}
+    table tr th:first-of-type,table tr td:first-of-type {display:none}
+    table tr td.activa + td {border-left:solid 10px rgba(105,159,56,0.75)}
+    table tr td.fueraplazo + td {border-left:solid 10px rgba(255,165,0,0.75)}
+    table tr td.cerrada + td {border-left:solid 10px rgba(211,47,47,0.75)}
+    /* Candidaturas */
+    .candidaturas .boton:nth-of-type(n+3) {flex:0 1 100%}
+    /* Crear candidatura */
+    .controles-contenedor .icono {display: none}
+    .controles-contenedor .boton .icono+.accion {padding: 0 5px}
+    /* Crear candidato */
+    .contenedor-candidatos {justify-content: center}
+    .contenedor-candidatos .card {flex: 0 0 calc(80% - 20px);}
 }
